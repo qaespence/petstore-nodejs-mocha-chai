@@ -121,7 +121,7 @@ async function generateRandomPet(id = undefined, category = undefined, name = un
         const petTags = ['friendly', 'playful', 'energetic', 'loyal', 'trained', 'cuddly', 'furry', 'obedient']
 
         const randomTags = Array.from({ length: faker.number.int({ min: 1, max: 5 }) }, () => ({
-            id: faker.number.int(),
+            id: faker.number.int({ min: 1, max: 999999 }),
             name: petTags[faker.number.int({ min: 0, max: petTags.length - 1 })], // Random pet-related tag
         }))
         
@@ -130,9 +130,9 @@ async function generateRandomPet(id = undefined, category = undefined, name = un
         )
         
         return {
-            id: id || faker.number.int(),
+            id: id || faker.number.int({ min: 1, max: 999999 }),
             category: category || {
-              id: faker.number.int(),
+              id: faker.number.int({ min: 1, max: 999999 }),
               name: faker.animal.type(), // Animal type for category.name
             },
             name: name || faker.person.firstName(),
