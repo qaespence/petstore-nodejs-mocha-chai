@@ -125,6 +125,125 @@ describe("Pet API Tests", () => {
                 `"category":{"id":${petData.category.id},"name":"${petData.category.name}"}`,
                 '"photoUrls"', '"tags"', `"status":"${petData.status}"`])
         expect(testResults, "Verify test results").to.equal("No mismatch values")
-    }) 
+    })
+
+    it("Test pet create with name with spaces", async() => {
+        let petData = await utils.generateRandomPet()
+        petData.name += " with spaces"
+        const addPetResponse = await petApi.addPet(petData.id, petData.category, petData.name, 
+            petData.photoUrls, petData.tags, petData.status)
+        petsToDelete.push(addPetResponse.body.id)
+
+        const testResults = await utils.multiPointVerification(addPetResponse,
+            200, [`"id":${petData.id}`, `"name":"${petData.name}"`, 
+                `"category":{"id":${petData.category.id},"name":"${petData.category.name}"}`,
+                '"photoUrls"', '"tags"', `"status":"${petData.status}"`], undefined, 
+                ['"content-type":"application/json"', '"transfer-encoding":"chunked"', '"connection":"close"',
+                '"access-control-allow-origin":"*"', '"access-control-allow-methods":"GET, POST, DELETE, PUT"',
+            '"access-control-allow-headers":"Content-Type, api_key, Authorization"'], undefined, 
+            [`"id":${petData.id}`, `"name":"${petData.name}"`, 
+                `"category":{"id":${petData.category.id},"name":"${petData.category.name}"}`,
+                '"photoUrls"', '"tags"', `"status":"${petData.status}"`])
+        expect(testResults, "Verify test results").to.equal("No mismatch values")
+    })
+
+    it("Test pet create with name empty string", async() => {
+        let petData = await utils.generateRandomPet()
+        petData.name = ""
+        const addPetResponse = await petApi.addPet(petData.id, petData.category, petData.name, 
+            petData.photoUrls, petData.tags, petData.status)
+        petsToDelete.push(addPetResponse.body.id)
+
+        const testResults = await utils.multiPointVerification(addPetResponse,
+            200, [`"id":${petData.id}`, `"name":"${petData.name}"`, 
+                `"category":{"id":${petData.category.id},"name":"${petData.category.name}"}`,
+                '"photoUrls"', '"tags"', `"status":"${petData.status}"`], undefined, 
+                ['"content-type":"application/json"', '"transfer-encoding":"chunked"', '"connection":"close"',
+                '"access-control-allow-origin":"*"', '"access-control-allow-methods":"GET, POST, DELETE, PUT"',
+            '"access-control-allow-headers":"Content-Type, api_key, Authorization"'], undefined, 
+            [`"id":${petData.id}`, `"name":"${petData.name}"`, 
+                `"category":{"id":${petData.category.id},"name":"${petData.category.name}"}`,
+                '"photoUrls"', '"tags"', `"status":"${petData.status}"`])
+        expect(testResults, "Verify test results").to.equal("No mismatch values")
+    })
+
+    it("Test pet create with name missing", async() => {
+        let petData = await utils.generateRandomPet()
+        const addPetResponse = await petApi.addPet(petData.id, petData.category, undefined, 
+            petData.photoUrls, petData.tags, petData.status)
+        petsToDelete.push(addPetResponse.body.id)
+
+        const testResults = await utils.multiPointVerification(addPetResponse,
+            200, [`"id":${petData.id}`, 
+                `"category":{"id":${petData.category.id},"name":"${petData.category.name}"}`,
+                '"photoUrls"', '"tags"', `"status":"${petData.status}"`], undefined, 
+                ['"content-type":"application/json"', '"transfer-encoding":"chunked"', '"connection":"close"',
+                '"access-control-allow-origin":"*"', '"access-control-allow-methods":"GET, POST, DELETE, PUT"',
+            '"access-control-allow-headers":"Content-Type, api_key, Authorization"'], undefined, 
+            [`"id":${petData.id}`, 
+                `"category":{"id":${petData.category.id},"name":"${petData.category.name}"}`,
+                '"photoUrls"', '"tags"', `"status":"${petData.status}"`])
+        expect(testResults, "Verify test results").to.equal("No mismatch values")
+    })
+
+    it("Test pet create with name invalid (data type)", async() => {
+        let petData = await utils.generateRandomPet()
+        petData.name = 123
+        const addPetResponse = await petApi.addPet(petData.id, petData.category, petData.name, 
+            petData.photoUrls, petData.tags, petData.status)
+        petsToDelete.push(addPetResponse.body.id)
+
+        const testResults = await utils.multiPointVerification(addPetResponse,
+            200, [`"id":${petData.id}`, `"name":"${petData.name}"`,
+                `"category":{"id":${petData.category.id},"name":"${petData.category.name}"}`,
+                '"photoUrls"', '"tags"', `"status":"${petData.status}"`], undefined, 
+                ['"content-type":"application/json"', '"transfer-encoding":"chunked"', '"connection":"close"',
+                '"access-control-allow-origin":"*"', '"access-control-allow-methods":"GET, POST, DELETE, PUT"',
+            '"access-control-allow-headers":"Content-Type, api_key, Authorization"'], undefined, 
+            [`"id":${petData.id}`, `"name":"${petData.name}"`,
+                `"category":{"id":${petData.category.id},"name":"${petData.category.name}"}`,
+                '"photoUrls"', '"tags"', `"status":"${petData.status}"`])
+        expect(testResults, "Verify test results").to.equal("No mismatch values")
+    })
+
+    it("Test pet create with name invalid (too long)", async() => {
+        let petData = await utils.generateRandomPet()
+        petData.name = utils.stringGen(1025)
+        const addPetResponse = await petApi.addPet(petData.id, petData.category, petData.name, 
+            petData.photoUrls, petData.tags, petData.status)
+        petsToDelete.push(addPetResponse.body.id)
+
+        const testResults = await utils.multiPointVerification(addPetResponse,
+            200, [`"id":${petData.id}`, `"name":"${petData.name}"`,
+                `"category":{"id":${petData.category.id},"name":"${petData.category.name}"}`,
+                '"photoUrls"', '"tags"', `"status":"${petData.status}"`], undefined, 
+                ['"content-type":"application/json"', '"transfer-encoding":"chunked"', '"connection":"close"',
+                '"access-control-allow-origin":"*"', '"access-control-allow-methods":"GET, POST, DELETE, PUT"',
+            '"access-control-allow-headers":"Content-Type, api_key, Authorization"'], undefined, 
+            [`"id":${petData.id}`, `"name":"${petData.name}"`,
+                `"category":{"id":${petData.category.id},"name":"${petData.category.name}"}`,
+                '"photoUrls"', '"tags"', `"status":"${petData.status}"`])
+        expect(testResults, "Verify test results").to.equal("No mismatch values")
+    })
+
+    it("Test pet create with name null", async() => {
+        let petData = await utils.generateRandomPet()
+        petData.name = null
+        const addPetResponse = await petApi.addPet(petData.id, petData.category, petData.name, 
+            petData.photoUrls, petData.tags, petData.status)
+        petsToDelete.push(addPetResponse.body.id)
+
+        const testResults = await utils.multiPointVerification(addPetResponse,
+            200, [`"id":${petData.id}`,
+                `"category":{"id":${petData.category.id},"name":"${petData.category.name}"}`,
+                '"photoUrls"', '"tags"', `"status":"${petData.status}"`], undefined, 
+                ['"content-type":"application/json"', '"transfer-encoding":"chunked"', '"connection":"close"',
+                '"access-control-allow-origin":"*"', '"access-control-allow-methods":"GET, POST, DELETE, PUT"',
+            '"access-control-allow-headers":"Content-Type, api_key, Authorization"'], undefined, 
+            [`"id":${petData.id}`, 
+                `"category":{"id":${petData.category.id},"name":"${petData.category.name}"}`,
+                '"photoUrls"', '"tags"', `"status":"${petData.status}"`])
+        expect(testResults, "Verify test results").to.equal("No mismatch values")
+    })
 
 })
