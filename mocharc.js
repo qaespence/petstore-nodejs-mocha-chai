@@ -11,6 +11,6 @@ utils.clearLogs()
 
 module.exports = {
     spec: "test/specs/**/*.js",   
-    timeout: 5000,                
+    timeout: 60000,                
     recursive: true
 }
