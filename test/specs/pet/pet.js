@@ -42,13 +42,15 @@ describe("Pet API Tests", () => {
         const testResults = await utils.multiPointVerification(addPetResponse,
             200, [`"id":${petData.id}`, `"name":"${petData.name}"`, 
                 `"category":{"id":${petData.category.id},"name":"${petData.category.name}"}`,
-                '"photoUrls"', '"tags"', `"status":"${petData.status}"`], undefined, 
+                '"photoUrls"', petData.photoUrls[0], '"tags"', petData.tags[0]["id"],
+                petData.tags[0]["name"], `"status":"${petData.status}"`], undefined, 
                 ['"content-type":"application/json"', '"transfer-encoding":"chunked"', '"connection":"close"',
                 '"access-control-allow-origin":"*"', '"access-control-allow-methods":"GET, POST, DELETE, PUT"',
             '"access-control-allow-headers":"Content-Type, api_key, Authorization"'], undefined, 
             [`"id":${petData.id}`, `"name":"${petData.name}"`, 
                 `"category":{"id":${petData.category.id},"name":"${petData.category.name}"}`,
-                '"photoUrls"', '"tags"', `"status":"${petData.status}"`])
+                '"photoUrls"', petData.photoUrls[0], '"tags"', petData.tags[0]["id"],
+                petData.tags[0]["name"], `"status":"${petData.status}"`])
         expect(testResults, "Verify test results").to.equal("No mismatch values")
     })
 
@@ -87,13 +89,15 @@ describe("Pet API Tests", () => {
         const testResults = await utils.multiPointVerification(addPetResponse,
             200, [`"name":"${petData.name}"`, 
                 `"category":{"id":${petData.category.id},"name":"${petData.category.name}"}`,
-                '"photoUrls"', '"tags"', `"status":"${petData.status}"`], undefined, 
+                '"photoUrls"', petData.photoUrls[0], '"tags"', petData.tags[0]["id"],
+                petData.tags[0]["name"], `"status":"${petData.status}"`], undefined, 
                 ['"content-type":"application/json"', '"transfer-encoding":"chunked"', '"connection":"close"',
                 '"access-control-allow-origin":"*"', '"access-control-allow-methods":"GET, POST, DELETE, PUT"',
             '"access-control-allow-headers":"Content-Type, api_key, Authorization"'], undefined, 
             [`"name":"${petData.name}"`, 
                 `"category":{"id":${petData.category.id},"name":"${petData.category.name}"}`,
-                '"photoUrls"', '"tags"', `"status":"${petData.status}"`])
+                '"photoUrls"', petData.photoUrls[0], '"tags"', petData.tags[0]["id"],
+                petData.tags[0]["name"], `"status":"${petData.status}"`])
         expect(testResults, "Verify test results").to.equal("No mismatch values")
     })
 
@@ -137,13 +141,15 @@ describe("Pet API Tests", () => {
         const testResults = await utils.multiPointVerification(addPetResponse,
             200, [`"name":"${petData.name}"`, 
                 `"category":{"id":${petData.category.id},"name":"${petData.category.name}"}`,
-                '"photoUrls"', '"tags"', `"status":"${petData.status}"`], undefined, 
+                '"photoUrls"', petData.photoUrls[0], '"tags"', petData.tags[0]["id"],
+                petData.tags[0]["name"], `"status":"${petData.status}"`], undefined, 
                 ['"content-type":"application/json"', '"transfer-encoding":"chunked"', '"connection":"close"',
                 '"access-control-allow-origin":"*"', '"access-control-allow-methods":"GET, POST, DELETE, PUT"',
             '"access-control-allow-headers":"Content-Type, api_key, Authorization"'], undefined, 
             [`"name":"${petData.name}"`, 
                 `"category":{"id":${petData.category.id},"name":"${petData.category.name}"}`,
-                '"photoUrls"', '"tags"', `"status":"${petData.status}"`])
+                '"photoUrls"', petData.photoUrls[0], '"tags"', petData.tags[0]["id"],
+                petData.tags[0]["name"], `"status":"${petData.status}"`])
         expect(testResults, "Verify test results").to.equal("No mismatch values")
     })
 
@@ -164,13 +170,15 @@ describe("Pet API Tests", () => {
         const testResults = await utils.multiPointVerification(addPetResponse,
             200, [`"name":"${petData.name}"`, 
                 `"category":{"id":${petData.category.id},"name":"${petData.category.name}"}`,
-                '"photoUrls"', '"tags"', `"status":"${petData.status}"`], undefined, 
+                '"photoUrls"', petData.photoUrls[0], '"tags"', petData.tags[0]["id"],
+                petData.tags[0]["name"], `"status":"${petData.status}"`], undefined, 
                 ['"content-type":"application/json"', '"transfer-encoding":"chunked"', '"connection":"close"',
                 '"access-control-allow-origin":"*"', '"access-control-allow-methods":"GET, POST, DELETE, PUT"',
             '"access-control-allow-headers":"Content-Type, api_key, Authorization"'], undefined, 
             [`"name":"${petData.name}"`, 
                 `"category":{"id":${petData.category.id},"name":"${petData.category.name}"}`,
-                '"photoUrls"', '"tags"', `"status":"${petData.status}"`])
+                '"photoUrls"', petData.photoUrls[0], '"tags"', petData.tags[0]["id"],
+                petData.tags[0]["name"], `"status":"${petData.status}"`])
         expect(testResults, "Verify test results").to.equal("No mismatch values")
     })
 
@@ -192,13 +200,15 @@ describe("Pet API Tests", () => {
         const testResults = await utils.multiPointVerification(addPetResponse,
             200, [`"id":${petData.id}`, `"name":"${petData.name}"`, 
                 `"category":{"id":${petData.category.id},"name":"${petData.category.name}"}`,
-                '"photoUrls"', '"tags"', `"status":"${petData.status}"`], undefined, 
+                '"photoUrls"', petData.photoUrls[0], '"tags"', petData.tags[0]["id"],
+                petData.tags[0]["name"], `"status":"${petData.status}"`], undefined, 
                 ['"content-type":"application/json"', '"transfer-encoding":"chunked"', '"connection":"close"',
                 '"access-control-allow-origin":"*"', '"access-control-allow-methods":"GET, POST, DELETE, PUT"',
             '"access-control-allow-headers":"Content-Type, api_key, Authorization"'], undefined, 
             [`"id":${petData.id}`, `"name":"${petData.name}"`, 
                 `"category":{"id":${petData.category.id},"name":"${petData.category.name}"}`,
-                '"photoUrls"', '"tags"', `"status":"${petData.status}"`])
+                '"photoUrls"', petData.photoUrls[0], '"tags"', petData.tags[0]["id"],
+                petData.tags[0]["name"], `"status":"${petData.status}"`])
         expect(testResults, "Verify test results").to.equal("No mismatch values")
     })
 
@@ -220,13 +230,15 @@ describe("Pet API Tests", () => {
         const testResults = await utils.multiPointVerification(addPetResponse,
             200, [`"id":${petData.id}`, `"name":"${petData.name}"`, 
                 `"category":{"id":${petData.category.id},"name":"${petData.category.name}"}`,
-                '"photoUrls"', '"tags"', `"status":"${petData.status}"`], undefined, 
+                '"photoUrls"', petData.photoUrls[0], '"tags"', petData.tags[0]["id"],
+                petData.tags[0]["name"], `"status":"${petData.status}"`], undefined, 
                 ['"content-type":"application/json"', '"transfer-encoding":"chunked"', '"connection":"close"',
                 '"access-control-allow-origin":"*"', '"access-control-allow-methods":"GET, POST, DELETE, PUT"',
             '"access-control-allow-headers":"Content-Type, api_key, Authorization"'], undefined, 
             [`"id":${petData.id}`, `"name":"${petData.name}"`, 
                 `"category":{"id":${petData.category.id},"name":"${petData.category.name}"}`,
-                '"photoUrls"', '"tags"', `"status":"${petData.status}"`])
+                '"photoUrls"', petData.photoUrls[0], '"tags"', petData.tags[0]["id"],
+                petData.tags[0]["name"], `"status":"${petData.status}"`])
         expect(testResults, "Verify test results").to.equal("No mismatch values")
     })
 
@@ -246,13 +258,15 @@ describe("Pet API Tests", () => {
         const testResults = await utils.multiPointVerification(addPetResponse,
             200, [`"id":${petData.id}`, 
                 `"category":{"id":${petData.category.id},"name":"${petData.category.name}"}`,
-                '"photoUrls"', '"tags"', `"status":"${petData.status}"`], undefined, 
+                '"photoUrls"', petData.photoUrls[0], '"tags"', petData.tags[0]["id"],
+                petData.tags[0]["name"], `"status":"${petData.status}"`], undefined, 
                 ['"content-type":"application/json"', '"transfer-encoding":"chunked"', '"connection":"close"',
                 '"access-control-allow-origin":"*"', '"access-control-allow-methods":"GET, POST, DELETE, PUT"',
             '"access-control-allow-headers":"Content-Type, api_key, Authorization"'], undefined, 
             [`"id":${petData.id}`, 
                 `"category":{"id":${petData.category.id},"name":"${petData.category.name}"}`,
-                '"photoUrls"', '"tags"', `"status":"${petData.status}"`])
+                '"photoUrls"', petData.photoUrls[0], '"tags"', petData.tags[0]["id"],
+                petData.tags[0]["name"], `"status":"${petData.status}"`])
         expect(testResults, "Verify test results").to.equal("No mismatch values")
     })
 
@@ -274,13 +288,15 @@ describe("Pet API Tests", () => {
         const testResults = await utils.multiPointVerification(addPetResponse,
             200, [`"id":${petData.id}`, `"name":"${petData.name}"`,
                 `"category":{"id":${petData.category.id},"name":"${petData.category.name}"}`,
-                '"photoUrls"', '"tags"', `"status":"${petData.status}"`], undefined, 
+                '"photoUrls"', petData.photoUrls[0], '"tags"', petData.tags[0]["id"],
+                petData.tags[0]["name"], `"status":"${petData.status}"`], undefined, 
                 ['"content-type":"application/json"', '"transfer-encoding":"chunked"', '"connection":"close"',
                 '"access-control-allow-origin":"*"', '"access-control-allow-methods":"GET, POST, DELETE, PUT"',
             '"access-control-allow-headers":"Content-Type, api_key, Authorization"'], undefined, 
             [`"id":${petData.id}`, `"name":"${petData.name}"`,
                 `"category":{"id":${petData.category.id},"name":"${petData.category.name}"}`,
-                '"photoUrls"', '"tags"', `"status":"${petData.status}"`])
+                '"photoUrls"', petData.photoUrls[0], '"tags"', petData.tags[0]["id"],
+                petData.tags[0]["name"], `"status":"${petData.status}"`])
         expect(testResults, "Verify test results").to.equal("No mismatch values")
     })
 
@@ -302,13 +318,15 @@ describe("Pet API Tests", () => {
         const testResults = await utils.multiPointVerification(addPetResponse,
             200, [`"id":${petData.id}`, `"name":"${petData.name}"`,
                 `"category":{"id":${petData.category.id},"name":"${petData.category.name}"}`,
-                '"photoUrls"', '"tags"', `"status":"${petData.status}"`], undefined, 
+                '"photoUrls"', petData.photoUrls[0], '"tags"', petData.tags[0]["id"],
+                petData.tags[0]["name"], `"status":"${petData.status}"`], undefined, 
                 ['"content-type":"application/json"', '"transfer-encoding":"chunked"', '"connection":"close"',
                 '"access-control-allow-origin":"*"', '"access-control-allow-methods":"GET, POST, DELETE, PUT"',
             '"access-control-allow-headers":"Content-Type, api_key, Authorization"'], undefined, 
             [`"id":${petData.id}`, `"name":"${petData.name}"`,
                 `"category":{"id":${petData.category.id},"name":"${petData.category.name}"}`,
-                '"photoUrls"', '"tags"', `"status":"${petData.status}"`])
+                '"photoUrls"', petData.photoUrls[0], '"tags"', petData.tags[0]["id"],
+                petData.tags[0]["name"], `"status":"${petData.status}"`])
         expect(testResults, "Verify test results").to.equal("No mismatch values")
     })
 
@@ -330,13 +348,15 @@ describe("Pet API Tests", () => {
         const testResults = await utils.multiPointVerification(addPetResponse,
             200, [`"id":${petData.id}`,
                 `"category":{"id":${petData.category.id},"name":"${petData.category.name}"}`,
-                '"photoUrls"', '"tags"', `"status":"${petData.status}"`], undefined, 
+                '"photoUrls"', petData.photoUrls[0], '"tags"', petData.tags[0]["id"],
+                petData.tags[0]["name"], `"status":"${petData.status}"`], undefined, 
                 ['"content-type":"application/json"', '"transfer-encoding":"chunked"', '"connection":"close"',
                 '"access-control-allow-origin":"*"', '"access-control-allow-methods":"GET, POST, DELETE, PUT"',
             '"access-control-allow-headers":"Content-Type, api_key, Authorization"'], undefined, 
             [`"id":${petData.id}`, 
                 `"category":{"id":${petData.category.id},"name":"${petData.category.name}"}`,
-                '"photoUrls"', '"tags"', `"status":"${petData.status}"`])
+                '"photoUrls"', petData.photoUrls[0], '"tags"', petData.tags[0]["id"],
+                petData.tags[0]["name"], `"status":"${petData.status}"`])
         expect(testResults, "Verify test results").to.equal("No mismatch values")
     })
 
@@ -358,13 +378,15 @@ describe("Pet API Tests", () => {
         const testResults = await utils.multiPointVerification(addPetResponse,
             200, [`"id":${petData.id}`,`"name":"${petData.name}"`, 
                 `"category":{"id":0,"name":"${petData.category.name}"}`,
-                '"photoUrls"', '"tags"', `"status":"${petData.status}"`], undefined, 
+                '"photoUrls"', petData.photoUrls[0], '"tags"', petData.tags[0]["id"],
+                petData.tags[0]["name"], `"status":"${petData.status}"`], undefined, 
                 ['"content-type":"application/json"', '"transfer-encoding":"chunked"', '"connection":"close"',
                 '"access-control-allow-origin":"*"', '"access-control-allow-methods":"GET, POST, DELETE, PUT"',
             '"access-control-allow-headers":"Content-Type, api_key, Authorization"'], undefined, 
             [`"name":"${petData.name}"`, 
                 `"category":{"id":0,"name":"${petData.category.name}"}`,
-                '"photoUrls"', '"tags"', `"status":"${petData.status}"`])
+                '"photoUrls"', petData.photoUrls[0], '"tags"', petData.tags[0]["id"],
+                petData.tags[0]["name"], `"status":"${petData.status}"`])
         expect(testResults, "Verify test results").to.equal("No mismatch values")
     })
 
@@ -410,13 +432,15 @@ describe("Pet API Tests", () => {
         const testResults = await utils.multiPointVerification(addPetResponse,
             200, [`"id":${petData.id}`,`"name":"${petData.name}"`, 
                 `"category":{"id":${petData.category.id},"name":"${petData.category.name}"}`,
-                '"photoUrls"', '"tags"', `"status":"${petData.status}"`], undefined, 
+                '"photoUrls"', petData.photoUrls[0], '"tags"', petData.tags[0]["id"],
+                petData.tags[0]["name"], `"status":"${petData.status}"`], undefined, 
                 ['"content-type":"application/json"', '"transfer-encoding":"chunked"', '"connection":"close"',
                 '"access-control-allow-origin":"*"', '"access-control-allow-methods":"GET, POST, DELETE, PUT"',
             '"access-control-allow-headers":"Content-Type, api_key, Authorization"'], undefined, 
             [`"name":"${petData.name}"`, 
                 `"category":{"id":${petData.category.id},"name":"${petData.category.name}"}`,
-                '"photoUrls"', '"tags"', `"status":"${petData.status}"`])
+                '"photoUrls"', petData.photoUrls[0], '"tags"', petData.tags[0]["id"],
+                petData.tags[0]["name"], `"status":"${petData.status}"`])
         expect(testResults, "Verify test results").to.equal("No mismatch values")
     })
 
@@ -438,13 +462,15 @@ describe("Pet API Tests", () => {
         const testResults = await utils.multiPointVerification(addPetResponse,
             200, [`"id":${petData.id}`,`"name":"${petData.name}"`, 
                 `"category":{"id":0,"name":"${petData.category.name}"}`,
-                '"photoUrls"', '"tags"', `"status":"${petData.status}"`], undefined, 
+                '"photoUrls"', petData.photoUrls[0], '"tags"', petData.tags[0]["id"],
+                petData.tags[0]["name"], `"status":"${petData.status}"`], undefined, 
                 ['"content-type":"application/json"', '"transfer-encoding":"chunked"', '"connection":"close"',
                 '"access-control-allow-origin":"*"', '"access-control-allow-methods":"GET, POST, DELETE, PUT"',
             '"access-control-allow-headers":"Content-Type, api_key, Authorization"'], undefined, 
             [`"name":"${petData.name}"`, 
                 `"category":{"id":0,"name":"${petData.category.name}"}`,
-                '"photoUrls"', '"tags"', `"status":"${petData.status}"`])
+                '"photoUrls"', petData.photoUrls[0], '"tags"', petData.tags[0]["id"],
+                petData.tags[0]["name"], `"status":"${petData.status}"`])
         expect(testResults, "Verify test results").to.equal("No mismatch values")
     })
 
@@ -466,13 +492,15 @@ describe("Pet API Tests", () => {
         const testResults = await utils.multiPointVerification(addPetResponse,
             200, [`"id":${petData.id}`, `"name":"${petData.name}"`, 
                 `"category":{"id":${petData.category.id},"name":"${petData.category.name}"}`,
-                '"photoUrls"', '"tags"', `"status":"${petData.status}"`], undefined, 
+                '"photoUrls"', petData.photoUrls[0], '"tags"', petData.tags[0]["id"],
+                petData.tags[0]["name"], `"status":"${petData.status}"`], undefined, 
                 ['"content-type":"application/json"', '"transfer-encoding":"chunked"', '"connection":"close"',
                 '"access-control-allow-origin":"*"', '"access-control-allow-methods":"GET, POST, DELETE, PUT"',
             '"access-control-allow-headers":"Content-Type, api_key, Authorization"'], undefined, 
             [`"id":${petData.id}`, `"name":"${petData.name}"`, 
                 `"category":{"id":${petData.category.id},"name":"${petData.category.name}"}`,
-                '"photoUrls"', '"tags"', `"status":"${petData.status}"`])
+                '"photoUrls"', petData.photoUrls[0], '"tags"', petData.tags[0]["id"],
+                petData.tags[0]["name"], `"status":"${petData.status}"`])
         expect(testResults, "Verify test results").to.equal("No mismatch values")
     })
 
@@ -494,13 +522,15 @@ describe("Pet API Tests", () => {
         const testResults = await utils.multiPointVerification(addPetResponse,
             200, [`"id":${petData.id}`, `"name":"${petData.name}"`, 
                 `"category":{"id":${petData.category.id},"name":"${petData.category.name}"}`,
-                '"photoUrls"', '"tags"', `"status":"${petData.status}"`], undefined, 
+                '"photoUrls"', petData.photoUrls[0], '"tags"', petData.tags[0]["id"],
+                petData.tags[0]["name"], `"status":"${petData.status}"`], undefined, 
                 ['"content-type":"application/json"', '"transfer-encoding":"chunked"', '"connection":"close"',
                 '"access-control-allow-origin":"*"', '"access-control-allow-methods":"GET, POST, DELETE, PUT"',
             '"access-control-allow-headers":"Content-Type, api_key, Authorization"'], undefined, 
             [`"id":${petData.id}`, `"name":"${petData.name}"`, 
                 `"category":{"id":${petData.category.id},"name":"${petData.category.name}"}`,
-                '"photoUrls"', '"tags"', `"status":"${petData.status}"`])
+                '"photoUrls"', petData.photoUrls[0], '"tags"', petData.tags[0]["id"],
+                petData.tags[0]["name"], `"status":"${petData.status}"`])
         expect(testResults, "Verify test results").to.equal("No mismatch values")
     })
 
@@ -522,13 +552,15 @@ describe("Pet API Tests", () => {
         const testResults = await utils.multiPointVerification(addPetResponse,
             200, [`"id":${petData.id}`, `"name":"${petData.name}"`,
                 `"category":{"id":${petData.category.id}}`,
-                '"photoUrls"', '"tags"', `"status":"${petData.status}"`], undefined, 
+                '"photoUrls"', petData.photoUrls[0], '"tags"', petData.tags[0]["id"],
+                petData.tags[0]["name"], `"status":"${petData.status}"`], undefined, 
                 ['"content-type":"application/json"', '"transfer-encoding":"chunked"', '"connection":"close"',
                 '"access-control-allow-origin":"*"', '"access-control-allow-methods":"GET, POST, DELETE, PUT"',
             '"access-control-allow-headers":"Content-Type, api_key, Authorization"'], undefined, 
             [`"id":${petData.id}`, `"name":"${petData.name}"`,
                 `"category":{"id":${petData.category.id}}`,
-                '"photoUrls"', '"tags"', `"status":"${petData.status}"`])
+                '"photoUrls"', petData.photoUrls[0], '"tags"', petData.tags[0]["id"],
+                petData.tags[0]["name"], `"status":"${petData.status}"`])
         expect(testResults, "Verify test results").to.equal("No mismatch values")
     })
 
@@ -550,13 +582,15 @@ describe("Pet API Tests", () => {
         const testResults = await utils.multiPointVerification(addPetResponse,
             200, [`"id":${petData.id}`, `"name":"${petData.name}"`,
                 `"category":{"id":${petData.category.id},"name":"${petData.category.name}"}`,
-                '"photoUrls"', '"tags"', `"status":"${petData.status}"`], undefined, 
+                '"photoUrls"', petData.photoUrls[0], '"tags"', petData.tags[0]["id"],
+                petData.tags[0]["name"], `"status":"${petData.status}"`], undefined, 
                 ['"content-type":"application/json"', '"transfer-encoding":"chunked"', '"connection":"close"',
                 '"access-control-allow-origin":"*"', '"access-control-allow-methods":"GET, POST, DELETE, PUT"',
             '"access-control-allow-headers":"Content-Type, api_key, Authorization"'], undefined, 
             [`"id":${petData.id}`, `"name":"${petData.name}"`,
                 `"category":{"id":${petData.category.id},"name":"${petData.category.name}"}`,
-                '"photoUrls"', '"tags"', `"status":"${petData.status}"`])
+                '"photoUrls"', petData.photoUrls[0], '"tags"', petData.tags[0]["id"],
+                petData.tags[0]["name"], `"status":"${petData.status}"`])
         expect(testResults, "Verify test results").to.equal("No mismatch values")
     })
 
@@ -578,13 +612,15 @@ describe("Pet API Tests", () => {
         const testResults = await utils.multiPointVerification(addPetResponse,
             200, [`"id":${petData.id}`, `"name":"${petData.name}"`,
                 `"category":{"id":${petData.category.id},"name":"${petData.category.name}"}`,
-                '"photoUrls"', '"tags"', `"status":"${petData.status}"`], undefined, 
+                '"photoUrls"', petData.photoUrls[0], '"tags"', petData.tags[0]["id"],
+                petData.tags[0]["name"], `"status":"${petData.status}"`], undefined, 
                 ['"content-type":"application/json"', '"transfer-encoding":"chunked"', '"connection":"close"',
                 '"access-control-allow-origin":"*"', '"access-control-allow-methods":"GET, POST, DELETE, PUT"',
             '"access-control-allow-headers":"Content-Type, api_key, Authorization"'], undefined, 
             [`"id":${petData.id}`, `"name":"${petData.name}"`,
                 `"category":{"id":${petData.category.id},"name":"${petData.category.name}"}`,
-                '"photoUrls"', '"tags"', `"status":"${petData.status}"`])
+                '"photoUrls"', petData.photoUrls[0], '"tags"', petData.tags[0]["id"],
+                petData.tags[0]["name"], `"status":"${petData.status}"`])
         expect(testResults, "Verify test results").to.equal("No mismatch values")
     })
 
@@ -606,13 +642,277 @@ describe("Pet API Tests", () => {
         const testResults = await utils.multiPointVerification(addPetResponse,
             200, [`"id":${petData.id}`, `"name":"${petData.name}"`,
                 `"category":{"id":${petData.category.id}}`,
-                '"photoUrls"', '"tags"', `"status":"${petData.status}"`], undefined, 
+                '"photoUrls"', petData.photoUrls[0], '"tags"', petData.tags[0]["id"],
+                petData.tags[0]["name"], `"status":"${petData.status}"`], undefined, 
                 ['"content-type":"application/json"', '"transfer-encoding":"chunked"', '"connection":"close"',
                 '"access-control-allow-origin":"*"', '"access-control-allow-methods":"GET, POST, DELETE, PUT"',
             '"access-control-allow-headers":"Content-Type, api_key, Authorization"'], undefined, 
             [`"id":${petData.id}`, `"name":"${petData.name}"`, 
                 `"category":{"id":${petData.category.id}}`,
-                '"photoUrls"', '"tags"', `"status":"${petData.status}"`])
+                '"photoUrls"', petData.photoUrls[0], '"tags"', petData.tags[0]["id"],
+                petData.tags[0]["name"], `"status":"${petData.status}"`])
+        expect(testResults, "Verify test results").to.equal("No mismatch values")
+    })
+
+    it("Test pet create with photo urls 1 valid", async() => {
+        let petData = await utils.generateRandomPet()
+        petData.photoUrls = ["http://test.com/photo1.jpg"]
+        const testPayload = {
+            "id": petData.id,
+            "category": petData.category,
+            "name": petData.name,
+            "photoUrls": petData.photoUrls,
+            "tags": petData.tags,
+            "status": petData.status
+        }
+        const addPetResponse = await basicRequests.post("/v2/pet", {"content-type":"application/json"}, 
+            testPayload)
+        petsToDelete.push(addPetResponse.body.id)
+
+        const testResults = await utils.multiPointVerification(addPetResponse,
+            200, [`"id":${petData.id}`, `"name":"${petData.name}"`, 
+                `"category":{"id":${petData.category.id},"name":"${petData.category.name}"}`,
+                '"photoUrls"', petData.photoUrls[0], '"tags"', petData.tags[0]["id"],
+                petData.tags[0]["name"], `"status":"${petData.status}"`], undefined, 
+                ['"content-type":"application/json"', '"transfer-encoding":"chunked"', '"connection":"close"',
+                '"access-control-allow-origin":"*"', '"access-control-allow-methods":"GET, POST, DELETE, PUT"',
+            '"access-control-allow-headers":"Content-Type, api_key, Authorization"'], undefined, 
+            [`"id":${petData.id}`, `"name":"${petData.name}"`, 
+                `"category":{"id":${petData.category.id},"name":"${petData.category.name}"}`,
+                '"photoUrls"', petData.photoUrls[0], '"tags"', petData.tags[0]["id"],
+                petData.tags[0]["name"], `"status":"${petData.status}"`])
+        expect(testResults, "Verify test results").to.equal("No mismatch values")
+    })
+
+    it("Test pet create with photo urls 2 valid", async() => {
+        let petData = await utils.generateRandomPet()
+        petData.photoUrls = ["http://test.com/photo1.jpg", "http://test.com/photo2.jpg"]
+        const testPayload = {
+            "id": petData.id,
+            "category": petData.category,
+            "name": petData.name,
+            "photoUrls": petData.photoUrls,
+            "tags": petData.tags,
+            "status": petData.status
+        }
+        const addPetResponse = await basicRequests.post("/v2/pet", {"content-type":"application/json"}, 
+            testPayload)
+        petsToDelete.push(addPetResponse.body.id)
+
+        const testResults = await utils.multiPointVerification(addPetResponse,
+            200, [`"id":${petData.id}`, `"name":"${petData.name}"`, 
+                `"category":{"id":${petData.category.id},"name":"${petData.category.name}"}`,
+                '"photoUrls"', petData.photoUrls[0], '"tags"', petData.tags[0]["id"],
+                petData.tags[0]["name"], `"status":"${petData.status}"`], undefined, 
+                ['"content-type":"application/json"', '"transfer-encoding":"chunked"', '"connection":"close"',
+                '"access-control-allow-origin":"*"', '"access-control-allow-methods":"GET, POST, DELETE, PUT"',
+            '"access-control-allow-headers":"Content-Type, api_key, Authorization"'], undefined, 
+            [`"id":${petData.id}`, `"name":"${petData.name}"`, 
+                `"category":{"id":${petData.category.id},"name":"${petData.category.name}"}`,
+                '"photoUrls"', petData.photoUrls[0], '"tags"', petData.tags[0]["id"],
+                petData.tags[0]["name"], `"status":"${petData.status}"`])
+        expect(testResults, "Verify test results").to.equal("No mismatch values")
+    })
+
+    it("Test pet create with photo urls same twice", async() => {
+        let petData = await utils.generateRandomPet()
+        petData.photoUrls = ["http://test.com/photo1.jpg", "http://test.com/photo1.jpg"]
+        const testPayload = {
+            "id": petData.id,
+            "category": petData.category,
+            "name": petData.name,
+            "photoUrls": petData.photoUrls,
+            "tags": petData.tags,
+            "status": petData.status
+        }
+        const addPetResponse = await basicRequests.post("/v2/pet", {"content-type":"application/json"}, 
+            testPayload)
+        petsToDelete.push(addPetResponse.body.id)
+
+        const testResults = await utils.multiPointVerification(addPetResponse,
+            200, [`"id":${petData.id}`, `"name":"${petData.name}"`, 
+                `"category":{"id":${petData.category.id},"name":"${petData.category.name}"}`,
+                '"photoUrls"', petData.photoUrls[0], '"tags"', petData.tags[0]["id"],
+                petData.tags[0]["name"], `"status":"${petData.status}"`], undefined, 
+                ['"content-type":"application/json"', '"transfer-encoding":"chunked"', '"connection":"close"',
+                '"access-control-allow-origin":"*"', '"access-control-allow-methods":"GET, POST, DELETE, PUT"',
+            '"access-control-allow-headers":"Content-Type, api_key, Authorization"'], undefined, 
+            [`"id":${petData.id}`, `"name":"${petData.name}"`, 
+                `"category":{"id":${petData.category.id},"name":"${petData.category.name}"}`,
+                '"photoUrls"', petData.photoUrls[0], '"tags"', petData.tags[0]["id"],
+                petData.tags[0]["name"], `"status":"${petData.status}"`])
+        expect(testResults, "Verify test results").to.equal("No mismatch values")
+    })
+
+    it("Test pet create with photo urls 1 invalid", async() => {
+        let petData = await utils.generateRandomPet()
+        petData.photoUrls = ["not-a-url"]
+        const testPayload = {
+            "id": petData.id,
+            "category": petData.category,
+            "name": petData.name,
+            "photoUrls": petData.photoUrls,
+            "tags": petData.tags,
+            "status": petData.status
+        }
+        const addPetResponse = await basicRequests.post("/v2/pet", {"content-type":"application/json"}, 
+            testPayload)
+        petsToDelete.push(addPetResponse.body.id)
+
+        const testResults = await utils.multiPointVerification(addPetResponse,
+            200, [`"id":${petData.id}`, `"name":"${petData.name}"`, 
+                `"category":{"id":${petData.category.id},"name":"${petData.category.name}"}`,
+                '"photoUrls"', petData.photoUrls[0], '"tags"', petData.tags[0]["id"],
+                petData.tags[0]["name"], `"status":"${petData.status}"`], undefined, 
+                ['"content-type":"application/json"', '"transfer-encoding":"chunked"', '"connection":"close"',
+                '"access-control-allow-origin":"*"', '"access-control-allow-methods":"GET, POST, DELETE, PUT"',
+            '"access-control-allow-headers":"Content-Type, api_key, Authorization"'], undefined, 
+            [`"id":${petData.id}`, `"name":"${petData.name}"`, 
+                `"category":{"id":${petData.category.id},"name":"${petData.category.name}"}`,
+                '"photoUrls"', petData.photoUrls[0], '"tags"', petData.tags[0]["id"],
+                petData.tags[0]["name"], `"status":"${petData.status}"`])
+        expect(testResults, "Verify test results").to.equal("No mismatch values")
+    })
+
+    it("Test pet create with photo urls a mix of valid and invalid", async() => {
+        let petData = await utils.generateRandomPet()
+        petData.photoUrls = ["http://test.com/photo1.jpg", "not-a-url"]
+        const testPayload = {
+            "id": petData.id,
+            "category": petData.category,
+            "name": petData.name,
+            "photoUrls": petData.photoUrls,
+            "tags": petData.tags,
+            "status": petData.status
+        }
+        const addPetResponse = await basicRequests.post("/v2/pet", {"content-type":"application/json"}, 
+            testPayload)
+        petsToDelete.push(addPetResponse.body.id)
+
+        const testResults = await utils.multiPointVerification(addPetResponse,
+            200, [`"id":${petData.id}`, `"name":"${petData.name}"`, 
+                `"category":{"id":${petData.category.id},"name":"${petData.category.name}"}`,
+                '"photoUrls"', petData.photoUrls[0], '"tags"', petData.tags[0]["id"],
+                petData.tags[0]["name"], `"status":"${petData.status}"`], undefined, 
+                ['"content-type":"application/json"', '"transfer-encoding":"chunked"', '"connection":"close"',
+                '"access-control-allow-origin":"*"', '"access-control-allow-methods":"GET, POST, DELETE, PUT"',
+            '"access-control-allow-headers":"Content-Type, api_key, Authorization"'], undefined, 
+            [`"id":${petData.id}`, `"name":"${petData.name}"`, 
+                `"category":{"id":${petData.category.id},"name":"${petData.category.name}"}`,
+                '"photoUrls"', petData.photoUrls[0], '"tags"', petData.tags[0]["id"],
+                petData.tags[0]["name"], `"status":"${petData.status}"`])
+        expect(testResults, "Verify test results").to.equal("No mismatch values")
+    })
+
+    it("Test pet create with photo urls missing", async() => {
+        let petData = await utils.generateRandomPet()
+        delete petData.photoUrls
+        const testPayload = {
+            "id": petData.id,
+            "category": petData.category,
+            "name": petData.name,
+            "photoUrls": petData.photoUrls,
+            "tags": petData.tags,
+            "status": petData.status
+        }
+        const addPetResponse = await basicRequests.post("/v2/pet", {"content-type":"application/json"}, 
+            testPayload)
+        petsToDelete.push(addPetResponse.body.id)
+
+        const testResults = await utils.multiPointVerification(addPetResponse,
+            200, [`"id":${petData.id}`, `"name":"${petData.name}"`, 
+                `"category":{"id":${petData.category.id},"name":"${petData.category.name}"}`,
+                '"photoUrls"', '"tags"', petData.tags[0]["id"],
+                petData.tags[0]["name"], `"status":"${petData.status}"`], undefined, 
+                ['"content-type":"application/json"', '"transfer-encoding":"chunked"', '"connection":"close"',
+                '"access-control-allow-origin":"*"', '"access-control-allow-methods":"GET, POST, DELETE, PUT"',
+            '"access-control-allow-headers":"Content-Type, api_key, Authorization"'], undefined, 
+            [`"id":${petData.id}`, `"name":"${petData.name}"`, 
+                `"category":{"id":${petData.category.id},"name":"${petData.category.name}"}`,
+                '"photoUrls"', '"tags"', petData.tags[0]["id"],
+                petData.tags[0]["name"], `"status":"${petData.status}"`])
+        expect(testResults, "Verify test results").to.equal("No mismatch values")
+    })
+
+    it("Test pet create with photo urls invalid (data type)", async() => {
+        let petData = await utils.generateRandomPet()
+        petData.photoUrls = 123
+        const testPayload = {
+            "id": petData.id,
+            "category": petData.category,
+            "name": petData.name,
+            "photoUrls": petData.photoUrls,
+            "tags": petData.tags,
+            "status": petData.status
+        }
+        const addPetResponse = await basicRequests.post("/v2/pet", {"content-type":"application/json"}, 
+            testPayload)
+        petsToDelete.push(addPetResponse.body.id)
+
+        const testResults = await utils.multiPointVerification(addPetResponse,
+            500, ['"code":500', '"type":"unknown"', '"message":"something bad happened"'], undefined, 
+                ['"content-type":"application/json"', '"transfer-encoding":"chunked"', '"connection":"close"',
+                '"access-control-allow-origin":"*"', '"access-control-allow-methods":"GET, POST, DELETE, PUT"',
+            '"access-control-allow-headers":"Content-Type, api_key, Authorization"'], undefined, 
+            ['"code":500', '"type":"unknown"', '"message":"something bad happened"'])
+        expect(testResults, "Verify test results").to.equal("No mismatch values")
+    })
+
+    it("Test pet create with photo urls empty list", async() => {
+        let petData = await utils.generateRandomPet()
+        petData.photoUrls = []
+        const testPayload = {
+            "id": petData.id,
+            "category": petData.category,
+            "name": petData.name,
+            "photoUrls": petData.photoUrls,
+            "tags": petData.tags,
+            "status": petData.status
+        }
+        const addPetResponse = await basicRequests.post("/v2/pet", {"content-type":"application/json"}, 
+            testPayload)
+        petsToDelete.push(addPetResponse.body.id)
+
+        const testResults = await utils.multiPointVerification(addPetResponse,
+            200, [`"id":${petData.id}`, `"name":"${petData.name}"`, 
+                `"category":{"id":${petData.category.id},"name":"${petData.category.name}"}`,
+                '"photoUrls"', '"tags"', petData.tags[0]["id"],
+                petData.tags[0]["name"], `"status":"${petData.status}"`], undefined, 
+                ['"content-type":"application/json"', '"transfer-encoding":"chunked"', '"connection":"close"',
+                '"access-control-allow-origin":"*"', '"access-control-allow-methods":"GET, POST, DELETE, PUT"',
+            '"access-control-allow-headers":"Content-Type, api_key, Authorization"'], undefined, 
+            [`"id":${petData.id}`, `"name":"${petData.name}"`, 
+                `"category":{"id":${petData.category.id},"name":"${petData.category.name}"}`,
+                '"photoUrls"', '"tags"', petData.tags[0]["id"],
+                petData.tags[0]["name"], `"status":"${petData.status}"`])
+        expect(testResults, "Verify test results").to.equal("No mismatch values")
+    })
+
+    it("Test pet create with photo urls null", async() => {
+        let petData = await utils.generateRandomPet()
+        petData.photoUrls = null
+        const testPayload = {
+            "id": petData.id,
+            "category": petData.category,
+            "name": petData.name,
+            "photoUrls": petData.photoUrls,
+            "tags": petData.tags,
+            "status": petData.status
+        }
+        const addPetResponse = await basicRequests.post("/v2/pet", {"content-type":"application/json"}, 
+            testPayload)
+        petsToDelete.push(addPetResponse.body.id)
+
+        const testResults = await utils.multiPointVerification(addPetResponse,
+            200, [`"id":${petData.id}`, `"name":"${petData.name}"`, 
+                `"category":{"id":${petData.category.id},"name":"${petData.category.name}"}`,
+                '"tags"', `"status":"${petData.status}"`], undefined, 
+                ['"content-type":"application/json"', '"transfer-encoding":"chunked"', '"connection":"close"',
+                '"access-control-allow-origin":"*"', '"access-control-allow-methods":"GET, POST, DELETE, PUT"',
+            '"access-control-allow-headers":"Content-Type, api_key, Authorization"'], undefined, 
+            [`"id":${petData.id}`, `"name":"${petData.name}"`, 
+                `"category":{"id":${petData.category.id},"name":"${petData.category.name}"}`,
+                '"tags"', `"status":"${petData.status}"`])
         expect(testResults, "Verify test results").to.equal("No mismatch values")
     })
 
