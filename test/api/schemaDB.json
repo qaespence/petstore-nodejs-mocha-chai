@@ -23,6 +23,30 @@
                     "server": "string"
                 }
             }
+        },
+        "/v2/pet/:pet_id": {
+            "GET": {
+                "body": {
+                    "id": "number",
+                    "category.id": "number",
+                    "category.name": "string",
+                    "name": "string",
+                    "photoUrls.0": "string",
+                    "tags.0.id": "number",
+                    "tags.0.name": "string",
+                    "status": "string"
+                },
+                "headers": {
+                    "date": "string",
+                    "content-type": "string",
+                    "transfer-encoding": "string",
+                    "connection": "string",
+                    "access-control-allow-origin": "string",
+                    "access-control-allow-methods": "string",
+                    "access-control-allow-headers": "string",
+                    "server": "string"
+                }
+            }
         }
     }
 }

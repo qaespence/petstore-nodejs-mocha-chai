@@ -22,7 +22,7 @@ describe("Pet API Tests", () => {
     })
 
     //
-    // POST /pet/:petId
+    // POST /pet
     //
 
     it("Test pet create", async() => {
@@ -1415,6 +1415,72 @@ describe("Pet API Tests", () => {
                 `"category":{"id":${petData.category.id},"name":"${petData.category.name}"}`,
                 '"photoUrls"', petData.photoUrls[0], '"tags"', petData.tags[0]["id"],
                 petData.tags[0]["name"]])
+        expect(testResults, "Verify test results").to.equal("No mismatch values")
+    })
+
+    //
+    // GET /pet/:petId
+    //
+
+    async function createTestPet() {
+        let petData = await utils.generateRandomPet()
+        const testPayload = {
+            "id": petData.id,
+            "category": petData.category,
+            "name": petData.name,
+            "photoUrls": petData.photoUrls,
+            "tags": petData.tags,
+            "status": petData.status
+        }
+        const addPetResponse = await basicRequests.post("/v2/pet", {"content-type":"application/json"}, 
+            testPayload)
+        petsToDelete.push(addPetResponse.body.id)
+        petData.token = await addPetResponse.body.id
+
+        return await petData
+    }
+
+    it("Test pet fetch", async() => {
+        let petData = await createTestPet()
+
+        const fetchPetResponse = await basicRequests.get(`/v2/pet/${petData.token}`)
+
+        const testResults = await utils.multiPointVerification(fetchPetResponse,
+            200, [`"id":${petData.id}`, `"name":"${petData.name}"`, 
+                `"category":{"id":${petData.category.id},"name":"${petData.category.name}"}`,
+                '"photoUrls"', petData.photoUrls[0], '"tags"', petData.tags[0]["id"],
+                petData.tags[0]["name"], `"status":"${petData.status}"`], undefined, 
+                ['"content-type":"application/json"', '"transfer-encoding":"chunked"', '"connection":"close"',
+                '"access-control-allow-origin":"*"', '"access-control-allow-methods":"GET, POST, DELETE, PUT"',
+            '"access-control-allow-headers":"Content-Type, api_key, Authorization"'], undefined, 
+            [`"id":${petData.id}`, `"name":"${petData.name}"`, 
+                `"category":{"id":${petData.category.id},"name":"${petData.category.name}"}`,
+                '"photoUrls"', petData.photoUrls[0], '"tags"', petData.tags[0]["id"],
+                petData.tags[0]["name"], `"status":"${petData.status}"`])
+        expect(testResults, "Verify test results").to.equal("No mismatch values")
+    })
+
+    it("Test pet fetch schema", async() => {
+        let petData = await createTestPet()
+
+        const fetchPetResponse = await basicRequests.get(`/v2/pet/${petData.token}`)
+
+        const testResults = utils.schemaValidation("pet", "/v2/pet/:pet_id", "GET",
+            fetchPetResponse.body, fetchPetResponse.header, false, true)
+        expect(testResults, "Verify test results").to.equal("No mismatch values")
+    })
+
+    it("Test pet fetch with bad id/token", async() => {
+        const fetchPetResponse = await basicRequests.get(`/v2/pet/bad`)
+
+        const testResults = await utils.multiPointVerification(fetchPetResponse,
+            404, ['"type":"unknown"', 
+                '"message":"java.lang.NumberFormatException: For input string', 'bad'], undefined, 
+                ['"content-type":"application/json"', '"transfer-encoding":"chunked"', '"connection":"close"',
+                '"access-control-allow-origin":"*"', '"access-control-allow-methods":"GET, POST, DELETE, PUT"',
+            '"access-control-allow-headers":"Content-Type, api_key, Authorization"'], undefined, 
+            ['"type":"unknown"', 
+                '"message":"java.lang.NumberFormatException: For input string', 'bad'])
         expect(testResults, "Verify test results").to.equal("No mismatch values")
     })
 
