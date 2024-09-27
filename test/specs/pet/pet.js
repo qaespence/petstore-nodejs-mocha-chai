@@ -1484,4 +1484,46 @@ describe("Pet API Tests", () => {
         expect(testResults, "Verify test results").to.equal("No mismatch values")
     })
 
+    //
+    // DELETE /pet/:petId
+    //
+
+    it("Test pet delete", async() => {
+        let petData = await createTestPet()
+
+        const fetchPetResponse = await basicRequests.del(`/v2/pet/${petData.token}`)
+
+        const testResults = await utils.multiPointVerification(fetchPetResponse,
+            200, ['"code":200', '"type":"unknown"', `"message":"${petData.token}"`], undefined, 
+                ['"content-type":"application/json"', '"transfer-encoding":"chunked"', '"connection":"close"',
+                '"access-control-allow-origin":"*"', '"access-control-allow-methods":"GET, POST, DELETE, PUT"',
+            '"access-control-allow-headers":"Content-Type, api_key, Authorization"'], undefined, 
+            ['"code":200', '"type":"unknown"', `"message":"${petData.token}"`])
+        expect(testResults, "Verify test results").to.equal("No mismatch values")
+    })
+
+    it("Test pet delete schema", async() => {
+        let petData = await createTestPet()
+
+        const fetchPetResponse = await basicRequests.del(`/v2/pet/${petData.token}`)
+
+        const testResults = utils.schemaValidation("pet", "/v2/pet/:pet_id", "DELETE",
+            fetchPetResponse.body, fetchPetResponse.header, true, true)
+        expect(testResults, "Verify test results").to.equal("No mismatch values")
+    })
+
+    it("Test pet delete with bad id/token", async() => {
+        const fetchPetResponse = await basicRequests.del(`/v2/pet/bad`)
+
+        const testResults = await utils.multiPointVerification(fetchPetResponse,
+            404, ['"type":"unknown"', 
+                '"message":"java.lang.NumberFormatException: For input string', 'bad'], undefined, 
+                ['"content-type":"application/json"', '"transfer-encoding":"chunked"', '"connection":"close"',
+                '"access-control-allow-origin":"*"', '"access-control-allow-methods":"GET, POST, DELETE, PUT"',
+            '"access-control-allow-headers":"Content-Type, api_key, Authorization"'], undefined, 
+            ['"type":"unknown"', 
+                '"message":"java.lang.NumberFormatException: For input string', 'bad'])
+        expect(testResults, "Verify test results").to.equal("No mismatch values")
+    })
+
 })
