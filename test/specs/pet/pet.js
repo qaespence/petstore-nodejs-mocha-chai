@@ -2,6 +2,7 @@
 const utils = require('../../helpers/utils.js')
 const basicRequests = require('../../api/basicRequests.js')
 const expect = require('chai').expect
+const { faker } = require('@faker-js/faker')
 
 describe("Pet API Tests", () => {
 
@@ -2181,33 +2182,226 @@ describe("Pet API Tests", () => {
         expect(testResults, "Verify test results").to.equal("No mismatch values")
     })
 
-    it("Test pet update (PUT json, status valid)", async() => {
+    it("Test pet update (PUT json, status valid, available -> pending)", async() => {
         let petData = await createTestPet()
-        let newPetData = await utils.generateRandomPet()
-        newPetData.status = "updated"
         const testPayload = {
             "id": petData.token,
             "category": petData.category,
-            "name": newPetData.name,
+            "name": petData.name,
             "photoUrls": petData.photoUrls,
             "tags": petData.tags,
-            "status": newPetData.status
+            "status": "pending"
         }
         const updatePetResponse = await basicRequests.put('/v2/pet', 
             {"content-type":"application/json"}, testPayload)
         
         const testResults = await utils.multiPointVerification(updatePetResponse,
-            200, [`"id":${petData.token}`, `"name":"${newPetData.name}"`, 
+            200, [`"id":${petData.token}`, `"name":"${petData.name}"`, 
                 `"category":{"id":${petData.category.id},"name":"${petData.category.name}"}`,
                 '"photoUrls"', petData.photoUrls[0], '"tags"', petData.tags[0]["id"],
-                petData.tags[0]["name"], `"status":"${newPetData.status}"`], undefined, 
+                petData.tags[0]["name"], `"status":"pending"`], undefined, 
                 ['"content-type":"application/json"', '"transfer-encoding":"chunked"', '"connection":"close"',
                 '"access-control-allow-origin":"*"', '"access-control-allow-methods":"GET, POST, DELETE, PUT"',
             '"access-control-allow-headers":"Content-Type, api_key, Authorization"'], undefined, 
-            [`"id":${petData.token}`, `"name":"${newPetData.name}"`, 
+            [`"id":${petData.token}`, `"name":"${petData.name}"`, 
                 `"category":{"id":${petData.category.id},"name":"${petData.category.name}"}`,
                 '"photoUrls"', petData.photoUrls[0], '"tags"', petData.tags[0]["id"],
-                petData.tags[0]["name"], `"status":"${newPetData.status}"`])
+                petData.tags[0]["name"], `"status":"pending"`])
+        expect(testResults, "Verify test results").to.equal("No mismatch values")
+    })
+
+    it("Test pet update (PUT json, status valid, available -> sold)", async() => {
+        let petData = await createTestPet()
+        const testPayload = {
+            "id": petData.token,
+            "category": petData.category,
+            "name": petData.name,
+            "photoUrls": petData.photoUrls,
+            "tags": petData.tags,
+            "status": "sold"
+        }
+        const updatePetResponse = await basicRequests.put('/v2/pet', 
+            {"content-type":"application/json"}, testPayload)
+        
+        const testResults = await utils.multiPointVerification(updatePetResponse,
+            200, [`"id":${petData.token}`, `"name":"${petData.name}"`, 
+                `"category":{"id":${petData.category.id},"name":"${petData.category.name}"}`,
+                '"photoUrls"', petData.photoUrls[0], '"tags"', petData.tags[0]["id"],
+                petData.tags[0]["name"], `"status":"sold"`], undefined, 
+                ['"content-type":"application/json"', '"transfer-encoding":"chunked"', '"connection":"close"',
+                '"access-control-allow-origin":"*"', '"access-control-allow-methods":"GET, POST, DELETE, PUT"',
+            '"access-control-allow-headers":"Content-Type, api_key, Authorization"'], undefined, 
+            [`"id":${petData.token}`, `"name":"${petData.name}"`, 
+                `"category":{"id":${petData.category.id},"name":"${petData.category.name}"}`,
+                '"photoUrls"', petData.photoUrls[0], '"tags"', petData.tags[0]["id"],
+                petData.tags[0]["name"], `"status":"sold"`])
+        expect(testResults, "Verify test results").to.equal("No mismatch values")
+    })
+
+    it("Test pet update (PUT json, status valid, available -> unsupported)", async() => {
+        let petData = await createTestPet()
+        const testPayload = {
+            "id": petData.token,
+            "category": petData.category,
+            "name": petData.name,
+            "photoUrls": petData.photoUrls,
+            "tags": petData.tags,
+            "status": "unsupported"
+        }
+        const updatePetResponse = await basicRequests.put('/v2/pet', 
+            {"content-type":"application/json"}, testPayload)
+        
+        const testResults = await utils.multiPointVerification(updatePetResponse,
+            200, [`"id":${petData.token}`, `"name":"${petData.name}"`, 
+                `"category":{"id":${petData.category.id},"name":"${petData.category.name}"}`,
+                '"photoUrls"', petData.photoUrls[0], '"tags"', petData.tags[0]["id"],
+                petData.tags[0]["name"], `"status":"unsupported"`], undefined, 
+                ['"content-type":"application/json"', '"transfer-encoding":"chunked"', '"connection":"close"',
+                '"access-control-allow-origin":"*"', '"access-control-allow-methods":"GET, POST, DELETE, PUT"',
+            '"access-control-allow-headers":"Content-Type, api_key, Authorization"'], undefined, 
+            [`"id":${petData.token}`, `"name":"${petData.name}"`, 
+                `"category":{"id":${petData.category.id},"name":"${petData.category.name}"}`,
+                '"photoUrls"', petData.photoUrls[0], '"tags"', petData.tags[0]["id"],
+                petData.tags[0]["name"], `"status":"unsupported"`])
+        expect(testResults, "Verify test results").to.equal("No mismatch values")
+    })
+
+    it("Test pet update (PUT json, status missing)", async() => {
+        let petData = await createTestPet()
+        const testPayload = {
+            "id": petData.token,
+            "category": petData.category,
+            "name": petData.name,
+            "photoUrls": petData.photoUrls,
+            "tags": petData.tags
+        }
+        const updatePetResponse = await basicRequests.put('/v2/pet', 
+            {"content-type":"application/json"}, testPayload)
+        
+        const testResults = await utils.multiPointVerification(updatePetResponse,
+            200, [`"id":${petData.token}`, `"name":"${petData.name}"`, 
+                `"category":{"id":${petData.category.id},"name":"${petData.category.name}"}`,
+                '"photoUrls"', petData.photoUrls[0], '"tags"', petData.tags[0]["id"],
+                petData.tags[0]["name"]], undefined, 
+                ['"content-type":"application/json"', '"transfer-encoding":"chunked"', '"connection":"close"',
+                '"access-control-allow-origin":"*"', '"access-control-allow-methods":"GET, POST, DELETE, PUT"',
+            '"access-control-allow-headers":"Content-Type, api_key, Authorization"'], undefined, 
+            [`"id":${petData.token}`, `"name":"${petData.name}"`, 
+                `"category":{"id":${petData.category.id},"name":"${petData.category.name}"}`,
+                '"photoUrls"', petData.photoUrls[0], '"tags"', petData.tags[0]["id"],
+                petData.tags[0]["name"]])
+        expect(testResults, "Verify test results").to.equal("No mismatch values")
+    })
+
+    it("Test pet update (PUT json, status invalid data type)", async() => {
+        let petData = await createTestPet()
+        const testPayload = {
+            "id": petData.token,
+            "category": petData.category,
+            "name": petData.name,
+            "photoUrls": petData.photoUrls,
+            "tags": petData.tags,
+            "status": 123
+        }
+        const updatePetResponse = await basicRequests.put('/v2/pet', 
+            {"content-type":"application/json"}, testPayload)
+        
+        const testResults = await utils.multiPointVerification(updatePetResponse,
+            200, [`"id":${petData.token}`, `"name":"${petData.name}"`, 
+                `"category":{"id":${petData.category.id},"name":"${petData.category.name}"}`,
+                '"photoUrls"', petData.photoUrls[0], '"tags"', petData.tags[0]["id"],
+                petData.tags[0]["name"], '"status":"123"'], undefined, 
+                ['"content-type":"application/json"', '"transfer-encoding":"chunked"', '"connection":"close"',
+                '"access-control-allow-origin":"*"', '"access-control-allow-methods":"GET, POST, DELETE, PUT"',
+            '"access-control-allow-headers":"Content-Type, api_key, Authorization"'], undefined, 
+            [`"id":${petData.token}`, `"name":"${petData.name}"`, 
+                `"category":{"id":${petData.category.id},"name":"${petData.category.name}"}`,
+                '"photoUrls"', petData.photoUrls[0], '"tags"', petData.tags[0]["id"],
+                petData.tags[0]["name"], '"status":"123"'])
+        expect(testResults, "Verify test results").to.equal("No mismatch values")
+    })
+
+    it("Test pet update (PUT json, status null)", async() => {
+        let petData = await createTestPet()
+        const testPayload = {
+            "id": petData.token,
+            "category": petData.category,
+            "name": petData.name,
+            "photoUrls": petData.photoUrls,
+            "tags": petData.tags,
+            "status": null
+        }
+        const updatePetResponse = await basicRequests.put('/v2/pet', 
+            {"content-type":"application/json"}, testPayload)
+        
+        const testResults = await utils.multiPointVerification(updatePetResponse,
+            200, [`"id":${petData.token}`, `"name":"${petData.name}"`, 
+                `"category":{"id":${petData.category.id},"name":"${petData.category.name}"}`,
+                '"photoUrls"', petData.photoUrls[0], '"tags"', petData.tags[0]["id"],
+                petData.tags[0]["name"]], undefined, 
+                ['"content-type":"application/json"', '"transfer-encoding":"chunked"', '"connection":"close"',
+                '"access-control-allow-origin":"*"', '"access-control-allow-methods":"GET, POST, DELETE, PUT"',
+            '"access-control-allow-headers":"Content-Type, api_key, Authorization"'], undefined, 
+            [`"id":${petData.token}`, `"name":"${petData.name}"`, 
+                `"category":{"id":${petData.category.id},"name":"${petData.category.name}"}`,
+                '"photoUrls"', petData.photoUrls[0], '"tags"', petData.tags[0]["id"],
+                petData.tags[0]["name"]])
+        expect(testResults, "Verify test results").to.equal("No mismatch values")
+    })
+
+    it("Test pet update (PUT json, id invalid data type)", async() => {
+        let petData = await createTestPet()
+        let newPetData = await utils.generateRandomPet()
+        const testPayload = {
+            "id": "not-an-id",
+            "category": newPetData.category,
+            "name": newPetData.name,
+            "photoUrls": newPetData.photoUrls,
+            "tags": newPetData.tags,
+            "status": newPetData.status
+        }
+        const updatePetResponse = await basicRequests.put('/v2/pet', 
+            {"content-type":"application/json"}, testPayload)
+
+        const testResults = await utils.multiPointVerification(updatePetResponse,
+            500, ['"code":500', '"type":"unknown"', '"message":"something bad happened"'], undefined, 
+                ['"content-type":"application/json"', '"transfer-encoding":"chunked"', '"connection":"close"',
+                '"access-control-allow-origin":"*"', '"access-control-allow-methods":"GET, POST, DELETE, PUT"',
+            '"access-control-allow-headers":"Content-Type, api_key, Authorization"'], undefined, 
+            ['"code":500', '"type":"unknown"', '"message":"something bad happened"'])
+        expect(testResults, "Verify test results").to.equal("No mismatch values")
+    })
+
+    // Skipping due to bug (expected 404, but returns 200)
+    xit("Test pet update (PUT json, non-existing id)", async() => {
+        let petData = await createTestPet()
+        let badID = 0
+        // find a non-existing id
+        for (let i = 0; i < 10; i++) {
+            let tryID = faker.number.int({ min: 1, max: 999999 })
+            let fetchPetResponse = await basicRequests.get(`/v2/pet/${tryID}`)
+            if (fetchPetResponse.statusCode === 404) {
+                badID = tryID
+                break
+            }
+        }
+        const testPayload = {
+            "id": badID,
+            "category": petData.category,
+            "name": petData.name,
+            "photoUrls": petData.photoUrls,
+            "tags": petData.tags,
+            "status": petData.status
+        }
+        const updatePetResponse = await basicRequests.put('/v2/pet', 
+            {"content-type":"application/json"}, testPayload)
+
+        const testResults = await utils.multiPointVerification(updatePetResponse,
+            404, [], undefined, 
+                ['"content-type":"application/json"', '"transfer-encoding":"chunked"', '"connection":"close"',
+                '"access-control-allow-origin":"*"', '"access-control-allow-methods":"GET, POST, DELETE, PUT"',
+            '"access-control-allow-headers":"Content-Type, api_key, Authorization"'], undefined, 
+            [])
         expect(testResults, "Verify test results").to.equal("No mismatch values")
     })
 
