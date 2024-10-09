@@ -35,6 +35,33 @@ function post(path, headers = {}, payload = {}) {
 }
 
 /**
+ * Sends a POST request to the specified API endpoint. (form data)
+ *
+ * @param {string} path - The API endpoint path (e.g., "/pet").
+ * @param {Object} [headers={}] - Headers to be included in the request. Defaults to an empty object.
+ * @param {Object} [payload={}] - The payload (body) to send with the POST request. Defaults to an empty object.
+ */
+function postForm(path, headers = {}, payload = {}) {
+    let startTime = new Date()
+    
+    return chai.request(serverUrl)
+    .post(path)
+    .set(headers)
+    .type('form')
+    .send(payload)
+    .then(function (res) {
+        let endTime = new Date()
+        utils.logApiToFile(path, "POST", serverUrl+path, payload, headers, 
+            endTime-startTime, res
+        )
+        return res
+    })
+    .catch(function (err) {
+        throw err
+    })
+}
+
+/**
  * Sends a GET request to the specified API endpoint.
  *
  * @param {string} path - The API endpoint path (e.g., "/pet/1").
@@ -136,6 +163,7 @@ function del(path, headers = {}) {
 
 module.exports = {
     post : post,
+    postForm : postForm,
     get : get,
     put : put,
     patch : patch,

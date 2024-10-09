@@ -2447,4 +2447,235 @@ describe("Pet API Tests", () => {
         expect(testResults, "Verify test results").to.equal("No mismatch values")
     })
 
+    //
+    // POST /pet/:pet_id
+    //
+
+    it("Test pet update (POST form, all fields valid)", async() => {
+        let petData = await createTestPet()
+        let newPetData = await utils.generateRandomPet()
+        const testPayload = {
+            "name": newPetData.name,
+            "status": "pending"
+        }
+        const updatePetResponse = await basicRequests.postForm(`/v2/pet/${petData.id}`, 
+            {"content-type":"application/x-www-form-urlencoded"}, testPayload)
+
+        const testResults = await utils.multiPointVerification(updatePetResponse,
+            200, ['"code":200', '"type":"unknown"', `"message":"${petData.id}"`], undefined, 
+                ['"content-type":"application/json"', '"transfer-encoding":"chunked"', '"connection":"close"',
+                '"access-control-allow-origin":"*"', '"access-control-allow-methods":"GET, POST, DELETE, PUT"',
+            '"access-control-allow-headers":"Content-Type, api_key, Authorization"'], undefined, 
+            ['"code":200', '"type":"unknown"', `"message":"${petData.id}"`])
+        expect(testResults, "Verify test results").to.equal("No mismatch values")
+    })
+
+    it("Test pet update schema (POST form)", async() => {
+        let petData = await createTestPet()
+        let newPetData = await utils.generateRandomPet()
+        const testPayload = {
+            "name": newPetData.name,
+            "status": "pending"
+        }
+        const updatePetResponse = await basicRequests.postForm(`/v2/pet/${petData.id}`, 
+            {"content-type":"application/x-www-form-urlencoded"}, testPayload)
+
+        const testResults = utils.schemaValidation("pet", "/v2/pet/:pet_id", "POST",
+            updatePetResponse.body, updatePetResponse.header, true, true)
+        expect(testResults, "Verify test results").to.equal("No mismatch values")
+    })
+
+    it("Test pet update (POST form, name missing)", async() => {
+        let petData = await createTestPet()
+        const testPayload = {
+            "status": "pending"
+        }
+        const updatePetResponse = await basicRequests.postForm(`/v2/pet/${petData.id}`, 
+            {"content-type":"application/x-www-form-urlencoded"}, testPayload)
+
+        const testResults = await utils.multiPointVerification(updatePetResponse,
+            200, ['"code":200', '"type":"unknown"', `"message":"${petData.id}"`], undefined, 
+                ['"content-type":"application/json"', '"transfer-encoding":"chunked"', '"connection":"close"',
+                '"access-control-allow-origin":"*"', '"access-control-allow-methods":"GET, POST, DELETE, PUT"',
+            '"access-control-allow-headers":"Content-Type, api_key, Authorization"'], undefined, 
+            ['"code":200', '"type":"unknown"', `"message":"${petData.id}"`])
+        expect(testResults, "Verify test results").to.equal("No mismatch values")
+    })
+
+    it("Test pet update (POST form, name over 1024 characters)", async() => {
+        let petData = await createTestPet()
+        const testPayload = {
+            "name": await utils.stringGen(1025),
+            "status": "pending"
+        }
+        const updatePetResponse = await basicRequests.postForm(`/v2/pet/${petData.id}`, 
+            {"content-type":"application/x-www-form-urlencoded"}, testPayload)
+
+        const testResults = await utils.multiPointVerification(updatePetResponse,
+            200, ['"code":200', '"type":"unknown"', `"message":"${petData.id}"`], undefined, 
+                ['"content-type":"application/json"', '"transfer-encoding":"chunked"', '"connection":"close"',
+                '"access-control-allow-origin":"*"', '"access-control-allow-methods":"GET, POST, DELETE, PUT"',
+            '"access-control-allow-headers":"Content-Type, api_key, Authorization"'], undefined, 
+            ['"code":200', '"type":"unknown"', `"message":"${petData.id}"`])
+        expect(testResults, "Verify test results").to.equal("No mismatch values")
+    })
+
+    it("Test pet update (POST form, name invalid data type)", async() => {
+        let petData = await createTestPet()
+        const testPayload = {
+            "name": 123,
+            "status": "pending"
+        }
+        const updatePetResponse = await basicRequests.postForm(`/v2/pet/${petData.id}`, 
+            {"content-type":"application/x-www-form-urlencoded"}, testPayload)
+
+        const testResults = await utils.multiPointVerification(updatePetResponse,
+            200, ['"code":200', '"type":"unknown"', `"message":"${petData.id}"`], undefined, 
+                ['"content-type":"application/json"', '"transfer-encoding":"chunked"', '"connection":"close"',
+                '"access-control-allow-origin":"*"', '"access-control-allow-methods":"GET, POST, DELETE, PUT"',
+            '"access-control-allow-headers":"Content-Type, api_key, Authorization"'], undefined, 
+            ['"code":200', '"type":"unknown"', `"message":"${petData.id}"`])
+        expect(testResults, "Verify test results").to.equal("No mismatch values")
+    })
+
+    it("Test pet update (POST form, name null)", async() => {
+        let petData = await createTestPet()
+        const testPayload = {
+            "name": null,
+            "status": "pending"
+        }
+        const updatePetResponse = await basicRequests.postForm(`/v2/pet/${petData.id}`, 
+            {"content-type":"application/x-www-form-urlencoded"}, testPayload)
+
+        const testResults = await utils.multiPointVerification(updatePetResponse,
+            200, ['"code":200', '"type":"unknown"', `"message":"${petData.id}"`], undefined, 
+                ['"content-type":"application/json"', '"transfer-encoding":"chunked"', '"connection":"close"',
+                '"access-control-allow-origin":"*"', '"access-control-allow-methods":"GET, POST, DELETE, PUT"',
+            '"access-control-allow-headers":"Content-Type, api_key, Authorization"'], undefined, 
+            ['"code":200', '"type":"unknown"', `"message":"${petData.id}"`])
+        expect(testResults, "Verify test results").to.equal("No mismatch values")
+    })
+
+    it("Test pet update (POST form, status missing)", async() => {
+        let petData = await createTestPet()
+        let newPetData = await utils.generateRandomPet()
+        const testPayload = {
+            "name": newPetData.name
+        }
+        const updatePetResponse = await basicRequests.postForm(`/v2/pet/${petData.id}`, 
+            {"content-type":"application/x-www-form-urlencoded"}, testPayload)
+
+        const testResults = await utils.multiPointVerification(updatePetResponse,
+            200, ['"code":200', '"type":"unknown"', `"message":"${petData.id}"`], undefined, 
+                ['"content-type":"application/json"', '"transfer-encoding":"chunked"', '"connection":"close"',
+                '"access-control-allow-origin":"*"', '"access-control-allow-methods":"GET, POST, DELETE, PUT"',
+            '"access-control-allow-headers":"Content-Type, api_key, Authorization"'], undefined, 
+            ['"code":200', '"type":"unknown"', `"message":"${petData.id}"`])
+        expect(testResults, "Verify test results").to.equal("No mismatch values")
+    })
+
+    it("Test pet update (POST form, status unsupported)", async() => {
+        let petData = await createTestPet()
+        let newPetData = await utils.generateRandomPet()
+        const testPayload = {
+            "name": newPetData.name,
+            "status": "unsupported"
+        }
+        const updatePetResponse = await basicRequests.postForm(`/v2/pet/${petData.id}`, 
+            {"content-type":"application/x-www-form-urlencoded"}, testPayload)
+
+        const testResults = await utils.multiPointVerification(updatePetResponse,
+            200, ['"code":200', '"type":"unknown"', `"message":"${petData.id}"`], undefined, 
+                ['"content-type":"application/json"', '"transfer-encoding":"chunked"', '"connection":"close"',
+                '"access-control-allow-origin":"*"', '"access-control-allow-methods":"GET, POST, DELETE, PUT"',
+            '"access-control-allow-headers":"Content-Type, api_key, Authorization"'], undefined, 
+            ['"code":200', '"type":"unknown"', `"message":"${petData.id}"`])
+        expect(testResults, "Verify test results").to.equal("No mismatch values")
+    })
+
+    it("Test pet update (POST form, status invalid data type)", async() => {
+        let petData = await createTestPet()
+        let newPetData = await utils.generateRandomPet()
+        const testPayload = {
+            "name": newPetData.name,
+            "status": 123
+        }
+        const updatePetResponse = await basicRequests.postForm(`/v2/pet/${petData.id}`, 
+            {"content-type":"application/x-www-form-urlencoded"}, testPayload)
+
+        const testResults = await utils.multiPointVerification(updatePetResponse,
+            200, ['"code":200', '"type":"unknown"', `"message":"${petData.id}"`], undefined, 
+                ['"content-type":"application/json"', '"transfer-encoding":"chunked"', '"connection":"close"',
+                '"access-control-allow-origin":"*"', '"access-control-allow-methods":"GET, POST, DELETE, PUT"',
+            '"access-control-allow-headers":"Content-Type, api_key, Authorization"'], undefined, 
+            ['"code":200', '"type":"unknown"', `"message":"${petData.id}"`])
+        expect(testResults, "Verify test results").to.equal("No mismatch values")
+    })
+
+    it("Test pet update (POST form, status null)", async() => {
+        let petData = await createTestPet()
+        let newPetData = await utils.generateRandomPet()
+        const testPayload = {
+            "name": newPetData.name,
+            "status": null
+        }
+        const updatePetResponse = await basicRequests.postForm(`/v2/pet/${petData.id}`, 
+            {"content-type":"application/x-www-form-urlencoded"}, testPayload)
+
+        const testResults = await utils.multiPointVerification(updatePetResponse,
+            200, ['"code":200', '"type":"unknown"', `"message":"${petData.id}"`], undefined, 
+                ['"content-type":"application/json"', '"transfer-encoding":"chunked"', '"connection":"close"',
+                '"access-control-allow-origin":"*"', '"access-control-allow-methods":"GET, POST, DELETE, PUT"',
+            '"access-control-allow-headers":"Content-Type, api_key, Authorization"'], undefined, 
+            ['"code":200', '"type":"unknown"', `"message":"${petData.id}"`])
+        expect(testResults, "Verify test results").to.equal("No mismatch values")
+    })
+
+    it("Test pet update (POST form, id bad)", async() => {
+        let newPetData = await utils.generateRandomPet()
+        const testPayload = {
+            "name": newPetData.name,
+            "status": "pending"
+        }
+        const updatePetResponse = await basicRequests.postForm(`/v2/pet/bad`, 
+            {"content-type":"application/x-www-form-urlencoded"}, testPayload)
+
+        const testResults = await utils.multiPointVerification(updatePetResponse,
+            404, ['"code":404', '"type":"unknown"', 
+                `"message":"java.lang.NumberFormatException: For input string:`], undefined, 
+                ['"content-type":"application/json"', '"transfer-encoding":"chunked"', '"connection":"close"',
+                '"access-control-allow-origin":"*"', '"access-control-allow-methods":"GET, POST, DELETE, PUT"',
+            '"access-control-allow-headers":"Content-Type, api_key, Authorization"'], undefined, 
+            ['"code":404', '"type":"unknown"', 
+                `"message":"java.lang.NumberFormatException: For input string:`])
+        expect(testResults, "Verify test results").to.equal("No mismatch values")
+    })
+
+    it("Test pet update (POST form, id non-existing)", async() => {
+        let badID = 0
+        // find a non-existing id
+        for (let i = 0; i < 10; i++) {
+            let tryID = faker.number.int({ min: 1, max: 999999 })
+            let fetchPetResponse = await basicRequests.get(`/v2/pet/${tryID}`)
+            if (fetchPetResponse.statusCode === 404) {
+                badID = tryID
+                break
+            }
+        }
+        const testPayload = {
+            "name": "bad",
+            "status": "pending"
+        }
+        const updatePetResponse = await basicRequests.postForm(`/v2/pet/${badID}`, 
+            {"content-type":"application/x-www-form-urlencoded"}, testPayload)
+
+        const testResults = await utils.multiPointVerification(updatePetResponse,
+            404, ['"code":404', '"type":"unknown"', `"message":"not found"`], undefined, 
+                ['"content-type":"application/json"', '"transfer-encoding":"chunked"', '"connection":"close"',
+                '"access-control-allow-origin":"*"', '"access-control-allow-methods":"GET, POST, DELETE, PUT"',
+            '"access-control-allow-headers":"Content-Type, api_key, Authorization"'], undefined, 
+            ['"code":404', '"type":"unknown"', `"message":"not found"`])
+        expect(testResults, "Verify test results").to.equal("No mismatch values")
+    })
+
 })
