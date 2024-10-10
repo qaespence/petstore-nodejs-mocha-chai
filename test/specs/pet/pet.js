@@ -1423,15 +1423,18 @@ describe("Pet API Tests", () => {
     // GET /pet/:petId
     //
 
-    async function createTestPet() {
+    async function createTestPet(forcedID = undefined, forcedCateGory = undefined,
+        forcedName = undefined, forcedPhotoUrls = undefined, forcedTags = undefined,
+        forcedStatus = undefined
+    ) {
         let petData = await utils.generateRandomPet()
         const testPayload = {
-            "id": petData.id,
-            "category": petData.category,
-            "name": petData.name,
-            "photoUrls": petData.photoUrls,
-            "tags": petData.tags,
-            "status": petData.status
+            "id": forcedID || petData.id,
+            "category": forcedCateGory || petData.category,
+            "name": forcedName || petData.name,
+            "photoUrls": forcedPhotoUrls || petData.photoUrls,
+            "tags": forcedTags || petData.tags,
+            "status": forcedStatus || petData.status
         }
         const addPetResponse = await basicRequests.post("/v2/pet", {"content-type":"application/json"}, 
             testPayload)
@@ -2675,6 +2678,116 @@ describe("Pet API Tests", () => {
                 '"access-control-allow-origin":"*"', '"access-control-allow-methods":"GET, POST, DELETE, PUT"',
             '"access-control-allow-headers":"Content-Type, api_key, Authorization"'], undefined, 
             ['"code":404', '"type":"unknown"', `"message":"not found"`])
+        expect(testResults, "Verify test results").to.equal("No mismatch values")
+    })
+
+    //
+    // GET /pet/findByStatus
+    //
+
+    it("Test pet findByStatus (available)", async() => {
+        // Create pet with available status
+        let petData = await createTestPet()
+
+        const fetchPetResponse = await basicRequests.get(`/v2/pet/findByStatus?status=available`)
+
+        const testResults = await utils.multiPointVerification(fetchPetResponse,
+            200, [`"id":${petData.id}`, `"name":"${petData.name}"`, 
+                `"category":{"id":${petData.category.id},"name":"${petData.category.name}"}`,
+                '"photoUrls"', petData.photoUrls[0], '"tags"', petData.tags[0]["id"],
+                petData.tags[0]["name"], `"status":"${petData.status}"`], undefined, 
+                ['"content-type":"application/json"', '"transfer-encoding":"chunked"', '"connection":"close"',
+                '"access-control-allow-origin":"*"', '"access-control-allow-methods":"GET, POST, DELETE, PUT"',
+            '"access-control-allow-headers":"Content-Type, api_key, Authorization"'], undefined, 
+            [`"id":${petData.id}`, `"name":"${petData.name}"`, 
+                `"category":{"id":${petData.category.id},"name":"${petData.category.name}"}`,
+                '"photoUrls"', petData.photoUrls[0], '"tags"', petData.tags[0]["id"],
+                petData.tags[0]["name"], `"status":"${petData.status}"`])
+        expect(testResults, "Verify test results").to.equal("No mismatch values")
+    })
+
+    it("Test pet findByStatus schema", async() => {
+        // Create pet with sold status
+        let petData = await createTestPet(undefined, undefined, undefined, undefined, 
+            undefined, "sold")
+
+        const fetchPetResponse = await basicRequests.get(
+            `/v2/pet/findByStatus?status=sold`)
+
+            const testResults = utils.schemaValidation("pet", "/v2/pet/findByStatus", "GET",
+                fetchPetResponse.body, fetchPetResponse.header, false, true)
+            expect(testResults, "Verify test results").to.equal("No mismatch values")
+    })
+
+    it("Test pet findByStatus (pending)", async() => {
+        // Create pet with pending status
+        let petData = await createTestPet(undefined, undefined, undefined, undefined, 
+            undefined, "pending")
+
+        const fetchPetResponse = await basicRequests.get(`/v2/pet/findByStatus?status=pending`)
+
+        const testResults = await utils.multiPointVerification(fetchPetResponse,
+            200, [`"id":${petData.id}`, `"name":"${petData.name}"`, 
+                `"category":{"id":${petData.category.id},"name":"${petData.category.name}"}`,
+                '"photoUrls"', petData.photoUrls[0], '"tags"', petData.tags[0]["id"],
+                petData.tags[0]["name"], `"status":"pending"`], [`"status":"available"`], 
+                ['"content-type":"application/json"', '"transfer-encoding":"chunked"', '"connection":"close"',
+                '"access-control-allow-origin":"*"', '"access-control-allow-methods":"GET, POST, DELETE, PUT"',
+            '"access-control-allow-headers":"Content-Type, api_key, Authorization"'], undefined, 
+            [`"id":${petData.id}`, `"name":"${petData.name}"`, 
+                `"category":{"id":${petData.category.id},"name":"${petData.category.name}"}`,
+                '"photoUrls"', petData.photoUrls[0], '"tags"', petData.tags[0]["id"],
+                petData.tags[0]["name"], `"status":"pending"`], [`"status":"available"`])
+        expect(testResults, "Verify test results").to.equal("No mismatch values")
+    })
+
+    it("Test pet findByStatus (sold)", async() => {
+        // Create pet with sold status
+        let petData = await createTestPet(undefined, undefined, undefined, undefined, 
+            undefined, "sold")
+
+        const fetchPetResponse = await basicRequests.get(`/v2/pet/findByStatus?status=sold`)
+
+        const testResults = await utils.multiPointVerification(fetchPetResponse,
+            200, [`"id":${petData.id}`, `"name":"${petData.name}"`, 
+                `"category":{"id":${petData.category.id},"name":"${petData.category.name}"}`,
+                '"photoUrls"', petData.photoUrls[0], '"tags"', petData.tags[0]["id"],
+                petData.tags[0]["name"], `"status":"sold"`], [`"status":"available"`], 
+                ['"content-type":"application/json"', '"transfer-encoding":"chunked"', '"connection":"close"',
+                '"access-control-allow-origin":"*"', '"access-control-allow-methods":"GET, POST, DELETE, PUT"',
+            '"access-control-allow-headers":"Content-Type, api_key, Authorization"'], undefined, 
+            [`"id":${petData.id}`, `"name":"${petData.name}"`, 
+                `"category":{"id":${petData.category.id},"name":"${petData.category.name}"}`,
+                '"photoUrls"', petData.photoUrls[0], '"tags"', petData.tags[0]["id"],
+                petData.tags[0]["name"], `"status":"sold"`], [`"status":"available"`])
+        expect(testResults, "Verify test results").to.equal("No mismatch values")
+    })
+
+    it("Test pet findByStatus (status query missing)", async() => {
+        const fetchPetResponse = await basicRequests.get(`/v2/pet/findByStatus?status`)
+
+        const testResults = await utils.multiPointVerification(fetchPetResponse,
+            200, undefined, 
+            [`"id"`, `"name"`, `"category":{"id"`, '"photoUrls"', '"tags"', `"status"`], 
+                ['"content-type":"application/json"', '"transfer-encoding":"chunked"', '"connection":"close"',
+                '"access-control-allow-origin":"*"', '"access-control-allow-methods":"GET, POST, DELETE, PUT"',
+            '"access-control-allow-headers":"Content-Type, api_key, Authorization"'], undefined, 
+            undefined, 
+            [`"id"`, `"name"`, `"category":{"id"`, '"photoUrls"', '"tags"', `"status"`])
+        expect(testResults, "Verify test results").to.equal("No mismatch values")
+    })
+
+    it("Test pet findByStatus (status query empty string)", async() => {
+        const fetchPetResponse = await basicRequests.get(`/v2/pet/findByStatus?status=`)
+
+        const testResults = await utils.multiPointVerification(fetchPetResponse,
+            200, undefined,
+            [`"id"`, `"name"`, `"category":{"id"`, '"photoUrls"', '"tags"', `"status"`], 
+                ['"content-type":"application/json"', '"transfer-encoding":"chunked"', '"connection":"close"',
+                '"access-control-allow-origin":"*"', '"access-control-allow-methods":"GET, POST, DELETE, PUT"',
+            '"access-control-allow-headers":"Content-Type, api_key, Authorization"'], undefined, 
+            undefined, 
+            [`"id"`, `"name"`, `"category":{"id"`, '"photoUrls"', '"tags"', `"status"`])
         expect(testResults, "Verify test results").to.equal("No mismatch values")
     })
 

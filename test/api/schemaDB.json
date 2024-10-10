@@ -103,6 +103,30 @@
                     "server": "string"
                 }
             }
+        },
+        "/v2/pet/findByStatus": {
+            "GET": {
+                "body": {
+                    "0.id": "number",
+                    "0.category.id": "number",
+                    "0.category.name": "string",
+                    "0.name": "string",
+                    "0.photoUrls.0": "string",
+                    "0.tags.0.id": "number",
+                    "0.tags.0.name": "string",
+                    "0.status": "string"
+                },
+                "headers": {
+                    "date": "string",
+                    "content-type": "string",
+                    "transfer-encoding": "string",
+                    "connection": "string",
+                    "access-control-allow-origin": "string",
+                    "access-control-allow-methods": "string",
+                    "access-control-allow-headers": "string",
+                    "server": "string"
+                }
+            }
         }
     }
 }
