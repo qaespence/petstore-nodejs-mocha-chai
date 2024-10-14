@@ -104,7 +104,7 @@ function setLogFileName(specFileName) {
 }
 
 /**
- * Generates a random pet object with optional default values for name, category, and status.
+ * Generates a random pet object with optional forced values for various properties.
  *
  * @param {number} [id=undefined] - The ID of the pet. Optional parameter.
  * @param {object} [category=undefined] - The category (id and name) of the pet, e.g., {id: 0, "name":"dog"}. Optional parameter.
@@ -138,7 +138,31 @@ async function generateRandomPet(id = undefined, category = undefined, name = un
             name: name || faker.person.firstName(),
             photoUrls: photoUrls || randomPhotoUrls,
             tags: tags || randomTags,
-            status: status || 'available',
+            status: status || 'available'
+        }
+}
+
+/**
+ * Generates a random store order object with optional forced values for various properties.
+ *
+ * @param {number} [id=undefined] - The ID of the order. Optional parameter.
+ * @param {number} [petId=undefined] - The petId related to the order. Optional parameter.
+ * @param {number} [quantity=undefined] - The quantity of the order. Optional parameter.
+ * @param {string} [shipDate=undefined] - The shipDate of the order. Optional parameter.
+ * @param {string} [status=undefined] - The status of the order, e.g., placed. Optional parameter. 
+ * @param {boolean} [complete=undefined] - The complete flag of the order. Optional parameter.
+ * @returns {Object} A random order object.
+ */
+async function generateRandomStoreOrder(id = undefined, petId = undefined, quantity = undefined, 
+    shipDate = undefined, status = undefined, complete = undefined) {
+        
+        return {
+            id: id || faker.number.int({ min: 1, max: 999999 }),
+            petId: petId || faker.number.int({ min: 1, max: 999999 }),
+            quantity: quantity || faker.number.int({ min: 1, max: 5 }),
+            shipDate: shipDate || faker.date.anytime({refDate: '2020-01-01T00:00:00.000Z'}).toISOString(),
+            status: status || 'placed',
+            complete: complete || faker.datatype.boolean()
         }
 }
 
@@ -423,6 +447,7 @@ module.exports = {
     clearLogs : clearLogs,
     setLogFileName : setLogFileName,
     generateRandomPet : generateRandomPet,
+    generateRandomStoreOrder : generateRandomStoreOrder,
     multiPointVerification : multiPointVerification,
     sleep : sleep,
     apiDebugger : apiDebugger,
