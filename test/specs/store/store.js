@@ -748,4 +748,148 @@ describe("Store API Tests", () => {
         expect(testResults, "Verify test results").to.equal("No mismatch values")
     })
 
+    it("Test store order create with complete false", async() => {
+        let orderData = await utils.generateRandomStoreOrder(undefined, undefined, undefined, undefined, 
+            undefined, false)
+        const testPayload = {
+            "id": orderData.id,
+            "petId": orderData.petId,
+            "quantity": orderData.quantity,
+            "shipDate": orderData.shipDate,
+            "status": orderData.status,
+            "complete": orderData.complete
+        }
+        const dateString = orderData.shipDate.replace('Z', '+0000')
+
+        const addOrderResponse = await basicRequests.post("/v2/store/order", 
+            {"content-type":"application/json"}, testPayload)
+        ordersToDelete.push(addOrderResponse.body.id)
+
+        const testResults = await utils.multiPointVerification(addOrderResponse,
+            200, [`"id":${orderData.id}`, `"petId":${orderData.petId}`, 
+                `"quantity":${orderData.quantity}`, `"shipDate":"${dateString}"`, 
+                `"status":"${orderData.status}"`, `"complete":${orderData.complete}`], undefined, 
+                ['"content-type":"application/json"', '"transfer-encoding":"chunked"', '"connection":"close"',
+                '"access-control-allow-origin":"*"', '"access-control-allow-methods":"GET, POST, DELETE, PUT"',
+            '"access-control-allow-headers":"Content-Type, api_key, Authorization"'], undefined, 
+            [`"id":${orderData.id}`, `"petId":${orderData.petId}`, 
+                `"quantity":${orderData.quantity}`, `shipDate":"${dateString}"`, 
+                `"status":"${orderData.status}"`, `"complete":${orderData.complete}`])
+        expect(testResults, "Verify test results").to.equal("No mismatch values")
+    })
+
+    it("Test store order create with complete true", async() => {
+        let orderData = await utils.generateRandomStoreOrder(undefined, undefined, undefined, undefined, 
+            undefined, true)
+        const testPayload = {
+            "id": orderData.id,
+            "petId": orderData.petId,
+            "quantity": orderData.quantity,
+            "shipDate": orderData.shipDate,
+            "status": orderData.status,
+            "complete": orderData.complete
+        }
+        const dateString = orderData.shipDate.replace('Z', '+0000')
+
+        const addOrderResponse = await basicRequests.post("/v2/store/order", 
+            {"content-type":"application/json"}, testPayload)
+        ordersToDelete.push(addOrderResponse.body.id)
+
+        const testResults = await utils.multiPointVerification(addOrderResponse,
+            200, [`"id":${orderData.id}`, `"petId":${orderData.petId}`, 
+                `"quantity":${orderData.quantity}`, `"shipDate":"${dateString}"`, 
+                `"status":"${orderData.status}"`, `"complete":${orderData.complete}`], undefined, 
+                ['"content-type":"application/json"', '"transfer-encoding":"chunked"', '"connection":"close"',
+                '"access-control-allow-origin":"*"', '"access-control-allow-methods":"GET, POST, DELETE, PUT"',
+            '"access-control-allow-headers":"Content-Type, api_key, Authorization"'], undefined, 
+            [`"id":${orderData.id}`, `"petId":${orderData.petId}`, 
+                `"quantity":${orderData.quantity}`, `shipDate":"${dateString}"`, 
+                `"status":"${orderData.status}"`, `"complete":${orderData.complete}`])
+        expect(testResults, "Verify test results").to.equal("No mismatch values")
+    })
+
+    it("Test store order create with complete unsupported", async() => {
+        let orderData = await utils.generateRandomStoreOrder(undefined, undefined, undefined, undefined, 
+            undefined, "unsupported")
+        const testPayload = {
+            "id": orderData.id,
+            "petId": orderData.petId,
+            "quantity": orderData.quantity,
+            "shipDate": orderData.shipDate,
+            "status": orderData.status,
+            "complete": orderData.complete
+        }
+        const dateString = orderData.shipDate.replace('Z', '+0000')
+
+        const addOrderResponse = await basicRequests.post("/v2/store/order", 
+            {"content-type":"application/json"}, testPayload)
+        ordersToDelete.push(addOrderResponse.body.id)
+
+        const testResults = await utils.multiPointVerification(addOrderResponse,
+            500, ['"code":500', '"type":"unknown"', '"message":"something bad happened"'], undefined, 
+                ['"content-type":"application/json"', '"transfer-encoding":"chunked"', '"connection":"close"',
+                '"access-control-allow-origin":"*"', '"access-control-allow-methods":"GET, POST, DELETE, PUT"',
+            '"access-control-allow-headers":"Content-Type, api_key, Authorization"'], undefined, 
+            ['"code":500', '"type":"unknown"', '"message":"something bad happened"'])
+        expect(testResults, "Verify test results").to.equal("No mismatch values")
+    })
+
+    it("Test store order create with complete missing", async() => {
+        let orderData = await utils.generateRandomStoreOrder()
+        const testPayload = {
+            "id": orderData.id,
+            "petId": orderData.petId,
+            "quantity": orderData.quantity,
+            "shipDate": orderData.shipDate,
+            "status": orderData.status
+        }
+        const dateString = orderData.shipDate.replace('Z', '+0000')
+
+        const addOrderResponse = await basicRequests.post("/v2/store/order", 
+            {"content-type":"application/json"}, testPayload)
+        ordersToDelete.push(addOrderResponse.body.id)
+
+        const testResults = await utils.multiPointVerification(addOrderResponse,
+            200, [`"id":${orderData.id}`, `"petId":${orderData.petId}`, 
+                `"quantity":${orderData.quantity}`, `"shipDate":"${dateString}"`, 
+                `"status":"${orderData.status}"`,], undefined, 
+                ['"content-type":"application/json"', '"transfer-encoding":"chunked"', '"connection":"close"',
+                '"access-control-allow-origin":"*"', '"access-control-allow-methods":"GET, POST, DELETE, PUT"',
+            '"access-control-allow-headers":"Content-Type, api_key, Authorization"'], undefined, 
+            [`"id":${orderData.id}`, `"petId":${orderData.petId}`, 
+                `"quantity":${orderData.quantity}`, `shipDate":"${dateString}"`, 
+                `"status":"${orderData.status}"`])
+        expect(testResults, "Verify test results").to.equal("No mismatch values")
+    })
+
+    it("Test store order create with complete null", async() => {
+        let orderData = await utils.generateRandomStoreOrder(undefined, undefined, undefined, undefined, 
+            undefined, null)
+        const testPayload = {
+            "id": orderData.id,
+            "petId": orderData.petId,
+            "quantity": orderData.quantity,
+            "shipDate": orderData.shipDate,
+            "status": orderData.status,
+            "complete": orderData.complete
+        }
+        const dateString = orderData.shipDate.replace('Z', '+0000')
+
+        const addOrderResponse = await basicRequests.post("/v2/store/order", 
+            {"content-type":"application/json"}, testPayload)
+        ordersToDelete.push(addOrderResponse.body.id)
+
+        const testResults = await utils.multiPointVerification(addOrderResponse,
+            200, [`"id":${orderData.id}`, `"petId":${orderData.petId}`, 
+                `"quantity":${orderData.quantity}`, `"shipDate":"${dateString}"`, 
+                `"status":"${orderData.status}"`, `"complete":${orderData.complete}`], undefined, 
+                ['"content-type":"application/json"', '"transfer-encoding":"chunked"', '"connection":"close"',
+                '"access-control-allow-origin":"*"', '"access-control-allow-methods":"GET, POST, DELETE, PUT"',
+            '"access-control-allow-headers":"Content-Type, api_key, Authorization"'], undefined, 
+            [`"id":${orderData.id}`, `"petId":${orderData.petId}`, 
+                `"quantity":${orderData.quantity}`, `shipDate":"${dateString}"`, 
+                `"status":"${orderData.status}"`, `"complete":${orderData.complete}`])
+        expect(testResults, "Verify test results").to.equal("No mismatch values")
+    })
+
 })
