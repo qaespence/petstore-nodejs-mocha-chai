@@ -715,9 +715,6 @@ describe("Store API Tests", () => {
         expect(testResults, "Verify test results").to.equal("No mismatch values")
     })
 
-
-
-
     it("Test store order create with status null", async() => {
         let orderData = await utils.generateRandomStoreOrder(undefined, undefined, undefined, undefined, 
             "null")
@@ -889,6 +886,76 @@ describe("Store API Tests", () => {
             [`"id":${orderData.id}`, `"petId":${orderData.petId}`, 
                 `"quantity":${orderData.quantity}`, `shipDate":"${dateString}"`, 
                 `"status":"${orderData.status}"`, `"complete":${orderData.complete}`])
+        expect(testResults, "Verify test results").to.equal("No mismatch values")
+    })
+
+    //
+    // GET /store/order/:orderId
+    //
+
+    async function createTestOrder(forceId = undefined, forcePetId = undefined, forceQuantity = undefined,
+        forceShipDate = undefined, forceStatus = undefined, forceComplete = undefined) {
+
+            let orderData = await utils.generateRandomStoreOrder(forceId, forcePetId, forceQuantity,
+                forceShipDate, forceStatus, forceComplete)
+
+            const testPayload = {
+                "id": orderData.id,
+                "petId": orderData.petId,
+                "quantity": orderData.quantity,
+                "shipDate": orderData.shipDate,
+                "status": orderData.status,
+                "complete": orderData.complete
+            }
+            const addOrderResponse = await basicRequests.post("/v2/store/order", 
+                {"content-type":"application/json"}, testPayload)
+            ordersToDelete.push(addOrderResponse.body.id)
+
+            orderData.token = addOrderResponse.body.id
+
+            return orderData
+    }
+
+    it("Test store order fetch", async() => {
+        let orderData = await createTestOrder()
+        const dateString = orderData.shipDate.replace('Z', '+0000')
+
+        const fetchOrderResponse = await basicRequests.get(`/v2/store/order/${orderData.token}`)
+
+        const testResults = await utils.multiPointVerification(fetchOrderResponse,
+            200, [`"id":${orderData.id}`, `"petId":${orderData.petId}`, 
+                `"quantity":${orderData.quantity}`, `"shipDate":"${dateString}"`, 
+                `"status":"${orderData.status}"`, `"complete":${orderData.complete}`], undefined, 
+                ['"content-type":"application/json"', '"transfer-encoding":"chunked"', '"connection":"close"',
+                '"access-control-allow-origin":"*"', '"access-control-allow-methods":"GET, POST, DELETE, PUT"',
+            '"access-control-allow-headers":"Content-Type, api_key, Authorization"'], undefined, 
+            [`"id":${orderData.id}`, `"petId":${orderData.petId}`, 
+                `"quantity":${orderData.quantity}`, `shipDate":"${dateString}"`, 
+                `"status":"${orderData.status}"`, `"complete":${orderData.complete}`])
+        expect(testResults, "Verify test results").to.equal("No mismatch values")
+    })
+
+    it("Test store order fetch schema", async() => {
+        let orderData = await createTestOrder()
+
+        const fetchOrderResponse = await basicRequests.get(`/v2/store/order/${orderData.token}`)
+
+        const testResults = utils.schemaValidation("store", "/v2/store/order/:orderId", "GET",
+            fetchOrderResponse.body, fetchOrderResponse.header, true, true)
+        expect(testResults, "Verify test results").to.equal("No mismatch values")
+    })
+
+    it("Test store order fetch with bad id/token", async() => {
+        const fetchOrderResponse = await basicRequests.get(`/v2/store/order/bad`)
+
+        const testResults = await utils.multiPointVerification(fetchOrderResponse,
+            404, ['"type":"unknown"', 
+                '"message":"java.lang.NumberFormatException: For input string', 'bad'], undefined, 
+                ['"content-type":"application/json"', '"transfer-encoding":"chunked"', '"connection":"close"',
+                '"access-control-allow-origin":"*"', '"access-control-allow-methods":"GET, POST, DELETE, PUT"',
+            '"access-control-allow-headers":"Content-Type, api_key, Authorization"'], undefined, 
+            ['"type":"unknown"', 
+                '"message":"java.lang.NumberFormatException: For input string', 'bad'])
         expect(testResults, "Verify test results").to.equal("No mismatch values")
     })
 
