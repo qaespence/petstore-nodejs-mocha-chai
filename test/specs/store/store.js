@@ -959,4 +959,32 @@ describe("Store API Tests", () => {
         expect(testResults, "Verify test results").to.equal("No mismatch values")
     })
 
+    //
+    // GET /store/order/:orderId
+    //
+
+    it("Test store inventory fetch", async() => {
+        await createTestOrder()
+
+        const fetchInventoryResponse = await basicRequests.get(`/v2/store/inventory`)
+
+        const testResults = await utils.multiPointVerification(fetchInventoryResponse,
+            200, ['"available"', '"pending"', '"sold"'], undefined, 
+                ['"content-type":"application/json"', '"transfer-encoding":"chunked"', '"connection":"close"',
+                '"access-control-allow-origin":"*"', '"access-control-allow-methods":"GET, POST, DELETE, PUT"',
+            '"access-control-allow-headers":"Content-Type, api_key, Authorization"'], undefined, 
+            ['"available"', '"pending"', '"sold"'])
+        expect(testResults, "Verify test results").to.equal("No mismatch values")
+    })
+
+    it("Test store inventory fetch schema", async() => {
+        await createTestOrder()
+
+        const fetchInventoryResponse = await basicRequests.get(`/v2/store/inventory`)
+
+        const testResults = utils.schemaValidation("store", "/v2/store/inventory", "GET",
+            fetchInventoryResponse.body, fetchInventoryResponse.header, false, true)
+        expect(testResults, "Verify test results").to.equal("No mismatch values")
+    })
+
 })

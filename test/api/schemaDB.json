@@ -139,7 +139,7 @@
                     "shipDate": "string",
                     "status": "string",
                     "complete": "boolean"
-                  },
+                },
                 "headers": {
                     "date": "string",
                     "content-type": "string",
@@ -161,7 +161,26 @@
                     "shipDate": "string",
                     "status": "string",
                     "complete": "boolean"
-                  },
+                },
+                "headers": {
+                    "date": "string",
+                    "content-type": "string",
+                    "transfer-encoding": "string",
+                    "connection": "string",
+                    "access-control-allow-origin": "string",
+                    "access-control-allow-methods": "string",
+                    "access-control-allow-headers": "string",
+                    "server": "string"
+                }
+            }
+        },
+        "/v2/store/inventory": {
+            "GET": {
+                "body": {
+                    "available": "number",
+                    "pending": "number",
+                    "sold": "number"
+                },
                 "headers": {
                     "date": "string",
                     "content-type": "string",
