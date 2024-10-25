@@ -960,7 +960,7 @@ describe("Store API Tests", () => {
     })
 
     //
-    // GET /store/order/:orderId
+    // GET /store/inventory
     //
 
     it("Test store inventory fetch", async() => {
@@ -984,6 +984,48 @@ describe("Store API Tests", () => {
 
         const testResults = utils.schemaValidation("store", "/v2/store/inventory", "GET",
             fetchInventoryResponse.body, fetchInventoryResponse.header, false, true)
+        expect(testResults, "Verify test results").to.equal("No mismatch values")
+    })
+
+    //
+    // DELETE /store/order/:orderId
+    //
+
+    it("Test store order delete", async() => {
+        let orderData = await createTestOrder()
+
+        const deleteOrderResponse = await basicRequests.del(`/v2/store/order/${orderData.token}`)
+
+        const testResults = await utils.multiPointVerification(deleteOrderResponse,
+            200, ['"code":200', '"type":"unknown"', `"message":"${orderData.token}"`], undefined, 
+                ['"content-type":"application/json"', '"transfer-encoding":"chunked"', '"connection":"close"',
+                '"access-control-allow-origin":"*"', '"access-control-allow-methods":"GET, POST, DELETE, PUT"',
+            '"access-control-allow-headers":"Content-Type, api_key, Authorization"'], undefined, 
+            ['"code":200', '"type":"unknown"', `"message":"${orderData.token}"`])
+        expect(testResults, "Verify test results").to.equal("No mismatch values")
+    })
+
+    it("Test store order delete schema", async() => {
+        let orderData = await createTestOrder()
+
+        const deleteOrderResponse = await basicRequests.del(`/v2/store/order/${orderData.token}`)
+
+        const testResults = utils.schemaValidation("store", "/v2/store/order/:orderId", "DELETE",
+            deleteOrderResponse.body, deleteOrderResponse.header, true, true)
+        expect(testResults, "Verify test results").to.equal("No mismatch values")
+    })
+
+    it("Test store order delete with bad id/token", async() => {
+        const deleteOrderResponse = await basicRequests.del(`/v2/store/order/bad`)
+
+        const testResults = await utils.multiPointVerification(deleteOrderResponse,
+            404, ['"type":"unknown"', 
+                '"message":"java.lang.NumberFormatException: For input string', 'bad'], undefined, 
+                ['"content-type":"application/json"', '"transfer-encoding":"chunked"', '"connection":"close"',
+                '"access-control-allow-origin":"*"', '"access-control-allow-methods":"GET, POST, DELETE, PUT"',
+            '"access-control-allow-headers":"Content-Type, api_key, Authorization"'], undefined, 
+            ['"type":"unknown"', 
+                '"message":"java.lang.NumberFormatException: For input string', 'bad'])
         expect(testResults, "Verify test results").to.equal("No mismatch values")
     })
 
