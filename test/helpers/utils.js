@@ -167,6 +167,38 @@ async function generateRandomStoreOrder(id = undefined, petId = undefined, quant
 }
 
 /**
+ * Generates a random user object with optional forced values for various properties.
+ *
+ * @param {number} [id=undefined] - The ID of the user. Optional parameter.
+ * @param {string} [username=undefined] - The username related to the user. Optional parameter.
+ * @param {string} [firstName=undefined] - The first name of the user. Optional parameter.
+ * @param {string} [lastName=undefined] - The last name of the user. Optional parameter.
+ * @param {string} [email=undefined] - The email of the user. Optional parameter. 
+ * @param {string} [password=undefined] - The password of the user. Optional parameter.
+ * @param {string} [phone=undefined] - The phone of the user. Optional parameter.
+ * @param {number} [userStatus=undefined] - The user status of the user. Optional parameter.
+ * @returns {Object} A random user object.
+ */
+async function generateRandomUser(id = undefined, username = undefined, firstName = undefined, 
+    lastName = undefined, email = undefined, password = undefined, phone = undefined,
+    userStatus = undefined) {
+        
+        const randomFirstName = faker.person.firstName()
+        const randomLastName = faker.person.lastName()
+
+        return {
+            id: id || faker.number.int({ min: 1, max: 999999 }),
+            username: username || (randomFirstName.substring(0, 1)+randomLastName),
+            firstName: firstName || randomFirstName,
+            lastName: lastName || randomLastName,
+            email: email || faker.internet.email({ provider: 'test.com' }),
+            password: password || faker.internet.password(),
+            phone: phone || faker.phone.number({ style: 'human' }),
+            userStatus: userStatus || 0
+        }
+}
+
+/**
  * Verifies if the actual status code matches the expected status code.
  *
  * @param {number} expectedStatusCode - The expected status code.
@@ -448,6 +480,7 @@ module.exports = {
     setLogFileName : setLogFileName,
     generateRandomPet : generateRandomPet,
     generateRandomStoreOrder : generateRandomStoreOrder,
+    generateRandomUser : generateRandomUser,
     multiPointVerification : multiPointVerification,
     sleep : sleep,
     apiDebugger : apiDebugger,
