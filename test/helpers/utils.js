@@ -184,7 +184,7 @@ async function generateRandomUser(id = undefined, username = undefined, firstNam
     userStatus = undefined) {
         
         const randomFirstName = faker.person.firstName()
-        const randomLastName = faker.person.lastName()
+        const randomLastName = faker.person.lastName().replaceAll("'", "")
 
         return {
             id: id || faker.number.int({ min: 1, max: 999999 }),

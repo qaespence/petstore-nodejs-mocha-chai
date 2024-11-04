@@ -202,4 +202,81 @@ describe("User API Tests", () => {
         expect(testResults, "Verify test results").to.equal("No mismatch values")
     })
 
+    // Skipped to not create data that cannot be cleaned up
+    it.skip("Test user create with username missing", async() => {
+        let userData = await utils.generateRandomUser()
+        const testPayload = {
+            "id": userData.id,
+            "firstName": userData.firstName,
+            "lastName": userData.lastName,
+            "email": userData.email,
+            "password": userData.password,
+            "phone": userData.phone,
+            "userStatus": userData.userStatus
+        }
+
+        const addUserResponse = await basicRequests.post("/v2/user", 
+            {"content-type":"application/json"}, testPayload)
+
+        const testResults = await utils.multiPointVerification(addUserResponse,
+            200, [`"code":200`, `"type":"unknown"`, `"message":"${userData.id}"`], undefined, 
+                ['"content-type":"application/json"', '"transfer-encoding":"chunked"', '"connection":"close"',
+                '"access-control-allow-origin":"*"', '"access-control-allow-methods":"GET, POST, DELETE, PUT"',
+            '"access-control-allow-headers":"Content-Type, api_key, Authorization"'], undefined, 
+            [`"code":200`, `"type":"unknown"`, `"message":"${userData.id}"`])
+        expect(testResults, "Verify test results").to.equal("No mismatch values")
+    })
+
+    it("Test user create with username invalid (data type)", async() => {
+        let userData = await utils.generateRandomUser()
+        const testPayload = {
+            "id": userData.id,
+            "username": 123,
+            "firstName": userData.firstName,
+            "lastName": userData.lastName,
+            "email": userData.email,
+            "password": userData.password,
+            "phone": userData.phone,
+            "userStatus": userData.userStatus
+        }
+
+        const addUserResponse = await basicRequests.post("/v2/user", 
+            {"content-type":"application/json"}, testPayload)
+        usersToDelete.push(userData.username)
+
+        const testResults = await utils.multiPointVerification(addUserResponse,
+            200, [`"code":200`, `"type":"unknown"`, `"message":"${userData.id}"`], undefined, 
+                ['"content-type":"application/json"', '"transfer-encoding":"chunked"', '"connection":"close"',
+                '"access-control-allow-origin":"*"', '"access-control-allow-methods":"GET, POST, DELETE, PUT"',
+            '"access-control-allow-headers":"Content-Type, api_key, Authorization"'], undefined, 
+            [`"code":200`, `"type":"unknown"`, `"message":"${userData.id}"`])
+        expect(testResults, "Verify test results").to.equal("No mismatch values")
+    })
+
+    // Skipped to not create data that cannot be cleaned up
+    it.skip("Test user create with username null", async() => {
+        let userData = await utils.generateRandomUser()
+        const testPayload = {
+            "id": userData.id,
+            "username": null,
+            "firstName": userData.firstName,
+            "lastName": userData.lastName,
+            "email": userData.email,
+            "password": userData.password,
+            "phone": userData.phone,
+            "userStatus": userData.userStatus
+        }
+
+        const addUserResponse = await basicRequests.post("/v2/user", 
+            {"content-type":"application/json"}, testPayload)
+
+        const testResults = await utils.multiPointVerification(addUserResponse,
+            200, [`"code":200`, `"type":"unknown"`, `"message":"${userData.id}"`], undefined, 
+                ['"content-type":"application/json"', '"transfer-encoding":"chunked"', '"connection":"close"',
+                '"access-control-allow-origin":"*"', '"access-control-allow-methods":"GET, POST, DELETE, PUT"',
+            '"access-control-allow-headers":"Content-Type, api_key, Authorization"'], undefined, 
+            [`"code":200`, `"type":"unknown"`, `"message":"${userData.id}"`])
+        expect(testResults, "Verify test results").to.equal("No mismatch values")
+    })
+
 })
